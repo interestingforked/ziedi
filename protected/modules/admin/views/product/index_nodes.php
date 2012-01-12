@@ -20,10 +20,8 @@
                     <th>Main</th>
                     <th>New</th>
                     <th>Sale</th>
-                    <th>Preorder</th>
                     <th>Price</th>
                     <th>Quantity</th>
-                    <th>Color</th>
                     <th>Size</th>
                     <th>Date created</th>
                     <th>Sort</th>
@@ -43,11 +41,9 @@
                     <td><?php echo ($productNode->main ? 'Yes' : 'No'); ?></td>
                     <td><?php echo ($productNode->new ? 'Yes' : 'No'); ?></td>
                     <td><?php echo ($productNode->sale ? 'Yes' : 'No'); ?></td>
-                    <td><?php echo ($productNode->preorder ? 'Yes' : 'No'); ?></td>
                     <td><?php echo $productNode->price; ?></td>
                     <td><?php echo $productNode->quantity; ?></td>
-                    <td><?php echo $this->classifier->getValue('color', $productNode->color, '-'); ?></td>
-                    <td><?php echo $this->classifier->getValue('size', $productNode->size, '-'); ?></td>
+                    <td><?php echo $productNode->size; ?></td>
                     <td><?php echo $productNode->created; ?></td>
                     <td><?php echo $productNode->sort; ?></td>
                     <td class="delete">

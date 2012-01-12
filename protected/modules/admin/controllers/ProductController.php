@@ -12,15 +12,15 @@ class ProductController extends AdminController {
         if ($id != null) {
             $sql = "SELECT DISTINCT p.id as p_id, p.active as p_active, p.slug as p_slug, p.sort as p_sort, p.created as p_created, "
                     . "cp.title as p_title, c.id as c_id, c.slug as c_slug, c.sort as c_sort, cc.title as c_title "
-                    . "FROM products p LEFT JOIN contents cp ON cp.module = 'product' AND cp.module_id = p.id AND cp.language = 'ru' "
+                    . "FROM products p LEFT JOIN contents cp ON cp.module = 'product' AND cp.module_id = p.id AND cp.language = 'lv' "
                     . "LEFT OUTER JOIN product_category pc ON p.id = pc.product_id LEFT OUTER JOIN categories c ON c.id = pc.category_id "
-                    . "LEFT JOIN contents cc ON cc.module = 'category' AND cc.module_id = c.id AND cc.language = 'ru' "
+                    . "LEFT JOIN contents cc ON cc.module = 'category' AND cc.module_id = c.id AND cc.language = 'lv' "
                     . "WHERE c.id = {$id} AND p.deleted = 0 ORDER BY p.sort";
 
             $session->add('lastViewedCategory', $id);
         } else {
             $sql = "SELECT DISTINCT p.id as p_id, p.active as p_active, p.slug as p_slug, p.sort as p_sort, p.created as p_created, cp.title as p_title "
-                    . "FROM products p LEFT JOIN contents cp ON cp.module = 'product' AND cp.module_id = p.id AND cp.language = 'ru' "
+                    . "FROM products p LEFT JOIN contents cp ON cp.module = 'product' AND cp.module_id = p.id AND cp.language = 'lv' "
                     . "WHERE p.deleted = 0 ORDER BY p.sort";
 
             $session->remove('lastViewedCategory');

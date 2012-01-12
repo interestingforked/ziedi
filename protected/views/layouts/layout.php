@@ -29,8 +29,11 @@
                 <div id="head_right">
                     <table class="picto">
                         <tr>
-                            <td><ul class="currency"><li class="current">LVL</li><li><a href="#">EUR</a></li></ul></td>
-                            <td><div class="over-cart"><div class="cart"><img src="/images/shop_cart.png" width="22" height="20" alt="pirkumu grozs" /> <a href="#">Pirkumu grozs</a></div></div></td>
+                            <td><ul class="currency">
+                                    <?php if (Yii::app()->params['currency'] == 'LVL'): ?><li class="current">LVL</li><?php else: ?><li><a href="?currency=LVL">LVL</a></li><?php endif; ?>
+                                    <?php if (Yii::app()->params['currency'] == 'EUR'): ?><li class="current">EUR</li><?php else: ?><li><a href="?currency=EUR">EUR</a></li><?php endif; ?>
+                            </ul></td>
+                            <td><div class="over-cart"><div class="cart"><img src="/images/shop_cart.png" width="22" height="20" alt="pirkumu grozs" /> <?php echo CHtml::link(Yii::t('app', 'cart'), array('/cart')); ?></div></div></td>
                         </tr>
                     </table>
                 </div>
@@ -41,7 +44,7 @@
             <div id="top-banner">
                 <div class="wrap">
                     <div id="banner">
-                        <div class="inner rc5"><img src="/images/top_banner.jpg" width="900" height="151" ></div>
+                        <div class="inner rc5"><?php echo $this->topBlock; ?></div>
                     </div>
                 </div>
             </div>
@@ -74,68 +77,11 @@
                                 <tr>
                                     <td class="content">
                                         <div class="wrap">
-                                            <table class="flowers">
-                                                <tr>
-                                                    <td class="border">
-                                                        <div><img src="/images/fl1.jpg" width="220" height="220" alt="fl1" /></div>
-                                                        <div class="fl-title"><a href="product.html">Pušķis mīļākai</a></div>
-                                                        <div class="price">20.00 Ls</div>
-                                                    </td>
-                                                    <td style="width:15px;">&nbsp;</td>
-                                                    <td class="border">
-                                                        <div><a href=""><a href=""><img src="/images/fl2.jpg" width="220" height="220" alt="fl1" /></a></div>
-                                                        <div class="fl-title"><a href="">Pušķis mīļākai</a></div>
-                                                        <div class="price">20.00 Ls</div>
-                                                    </td>
-                                                </tr>
-                                                <tr><td colspan="3" style="height:15px;"></td></tr>
-                                                <tr>
-                                                    <td class="border">
-                                                        <div><img src="/images/fl3.jpg" width="220" height="220" alt="fl1" /></div>
-                                                        <div class="fl-title"><a href="">Pušķis mīļākai</a></div>
-                                                        <div class="price">20.00 Ls</div>
-                                                    </td>
-                                                    <td style="width:15px;">&nbsp;</td>
-                                                    <td class="border">
-                                                        <div><a href=""><a href=""><img src="/images/fl1.jpg" width="220" height="220" alt="fl1" /></a></div>
-                                                        <div class="fl-title"><a href="">Pušķis mīļākai</a></div>
-                                                        <div class="price">20.00 Ls</div>
-                                                    </td>
-                                                </tr>
-                                                <tr><td colspan="3" style="height:15px;"></td></tr>
-                                                <tr>
-                                                    <td class="border">
-                                                        <div><img src="/images/fl3.jpg" width="220" height="220" alt="fl1" /></div>
-                                                        <div class="fl-title"><a href="">Pušķis mīļākai</a></div>
-                                                        <div class="price">20.00 Ls</div>
-                                                    </td>
-                                                    <td style="width:15px;">&nbsp;</td>
-                                                    <td class="border">
-                                                        <div><a href=""><a href=""><img src="/images/fl1.jpg" width="220" height="220" alt="fl1" /></a></div>
-                                                        <div class="fl-title"><a href="">Pušķis mīļākai</a></div>
-                                                        <div class="price">20.00 Ls</div>
-                                                    </td>
-                                                </tr>
-                                                <tr><td colspan="3" style="height:15px;"></td></tr>
-                                                <tr>
-                                                    <td class="border">
-                                                        <div><img src="/images/fl3.jpg" width="220" height="220" alt="fl1" /></div>
-                                                        <div class="fl-title"><a href="">Pušķis mīļākai</a></div>
-                                                        <div class="price">20.00 Ls</div>
-                                                    </td>
-                                                    <td style="width:15px;">&nbsp;</td>
-                                                    <td class="border">
-                                                        <div><a href=""><a href=""><img src="/images/fl1.jpg" width="220" height="220" alt="fl1" /></a></div>
-                                                        <div class="fl-title"><a href="">Pušķis mīļākai</a></div>
-                                                        <div class="price">20.00 Ls</div>
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                            <?php echo $content; ?>
                                         </div>
                                     </td>
                                     <td class="page-right">
-                                        <div class="r-banner"><img src="/images/ban1.jpg" /></div>
-                                        <div class="r-banner"><img src="/images/ban2.jpg" /></div>
+                                        <?php echo $this->rightBlock; ?>
                                     </td>
                                 </tr>
                             </table>

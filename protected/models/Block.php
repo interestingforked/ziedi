@@ -39,7 +39,7 @@ class Block extends CActiveRecord {
     
     public function defaultScope() {
         return array(
-            'order' => 'sort DESC',
+            'order' => 'sort ASC',
         );
     }
 

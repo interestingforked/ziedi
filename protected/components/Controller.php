@@ -12,6 +12,9 @@ class Controller extends CController {
     public $metaKeywords = '';
     public $background = '';
     public $link = '';
+    public $currencyLink = '';
+    public $topBlock = '';
+    public $rightBlock = '';
     protected $classifier;
     protected $wishlistManager;
     protected $cart;
@@ -47,6 +50,9 @@ class Controller extends CController {
 
         $this->wishlistManager = new WishlistManager();
         $this->cart = new CartManager();
+        
+        $this->topBlock = Block::model()->getBlock(1);
+        $this->rightBlock = Block::model()->getBlock(2);
 
         if (isset($_GET['lang']))
             Yii::app()->setLanguage($_GET['lang']);

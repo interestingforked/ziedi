@@ -29,7 +29,9 @@ class CategoryController extends AdminController {
             $categoryModel->attributes = $_POST['Category'];
             $contentModel->attributes = $_POST['Content'];
 
-            $categoryModel->image = Attachment::model()->saveImage($categoryModel->image, 'category');
+            if (!empty($_POST['Category']['image'])) {
+                $categoryModel->image = Attachment::model()->saveImage($categoryModel->image, 'category');
+            }
 
             $transaction = Yii::app()->db->beginTransaction();
             if ($categoryModel->save()) {

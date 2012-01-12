@@ -52,10 +52,6 @@ echo $form->errorSummary(array($model, $contentModel));
 </p>
 <hr/>
 <p>
-    <?php echo $form->labelEx($contentModel, 'additional'); ?><label>: Product specification</label><br/>
-    <?php echo $form->textArea($contentModel,'additional', array('class' => 'text medium')); ?>
-</p>
-<p>
     <?php echo $form->labelEx($contentModel, 'body'); ?><br/>
     <?php echo $form->textArea($contentModel,'body', array('class' => 'wysiwyg')); ?>
 </p>
