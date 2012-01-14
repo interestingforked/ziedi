@@ -7,8 +7,6 @@ $this->breadcrumbs = array(
 <h1><?php echo UserModule::t('Your profile'); ?></h1>
 <div class="hr-title"><hr></div>
 
-<p><?php echo UserModule::t('Добро пожаловать.'); ?> </p>
-<p><?php echo UserModule::t('Если вы хотите обновить ваш профиль, пожалуйста зайдите в раздел "Редактировать".'); ?></p>
 <p>
 <?php echo $this->renderPartial('menu'); ?>
 </p>

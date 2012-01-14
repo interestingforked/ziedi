@@ -2,7 +2,7 @@
 
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
-    'name' => 'Storm london',
+    'name' => 'Aizietziedi.lv',
     'preload' => array('log'),
     'import' => array(
         'application.models.*',
@@ -34,7 +34,7 @@ return array(
             'loginUrl' => array('/user/login'),
         ),
         'urlManager' => array(
-            'class' => 'urlManager',
+            'class' => 'UrlManager',
             'urlFormat' => 'path',
             'rules' => array(
                 '/' => 'site/index',
@@ -75,10 +75,9 @@ return array(
         ),
         'defaultLanguage' => 'lv',
         'currencies' => array(
-            'EUR' => 'Euro',
-            'LVL' => 'Lats'
+            'EUR' => '&euro;',
+            'LVL' => 'Ls'
         ),
-        'defaultCurrency' => 'LVL',
         'currency' => 'LVL',
         'images' => '/images/products/',
         'categories' => '/images/categories/',
@@ -90,22 +89,6 @@ return array(
         'thumbUrl' => '/assets/thumb.php',
         'size_limit' => 10 * 1024 * 1024,
         'tmp_upload_dir' => 'assets/tmp/',
-        'ponyExpress' => array(
-            'schema' => 'http://www.ponyexpress.ru/tools/tariff_ws.wsdl',
-            'currency_code' => 'RUB',
-            'org_citycode' => 'MOW',
-            'direction' => 2,
-            'delivery_mode' => 2,
-        ),
-        'RBKMoney' => array(
-            'requestUrl' => 'https://rbkmoney.ru/acceptpurchase.aspx',
-            'successUrl' => array('/checkout/paymentsuccess'),
-            'failUrl' => array('/checkout/paymentfailed'),
-            'currency' => 'RUB',
-            'shopId' => '2009262',
-            'secretKey' => 'st0rm',
-        ),
-        'indexTitle' => 'Часы STORM – Официальный сайт STORM London – Мужские часы – Женские часы',
         'adminIcons' => array(
             'arrow_up' => '/images/admin/arrow_up.png',
             'arrow_down' => '/images/admin/arrow_down.png',

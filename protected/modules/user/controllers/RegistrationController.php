@@ -20,6 +20,8 @@ class RegistrationController extends Controller {
      * Registration user
      */
     public function actionRegistration() {
+        $this->redirect(array('/user/login'));
+        
         $model = new RegistrationForm;
         $profile = new Profile;
         $profile->regMode = true;

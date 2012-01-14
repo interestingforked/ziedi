@@ -9,8 +9,6 @@
         echo $this->renderPartial('_form_node', array(
             'errors' => $errors,
             'model' => $model,
-            'colors' => $colors,
-            'sizes' => $sizes,
         ));
         ?>
     </div>

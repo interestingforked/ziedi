@@ -103,7 +103,7 @@ class ProductController extends AdminController {
                 $contentModel->language = Yii::app()->params['defaultLanguage'];
 
                 if ($contentModel->save()) {
-                    $result = Attachment::model()->saveAttachments($attachments, 'productBig', $model->id, $model->slug);
+                    $result = Attachment::model()->saveAttachments($attachments, 'product', $model->id, $model->slug);
                     if (!is_array($result)) {
                         $transaction->commit();
 
@@ -143,20 +143,8 @@ class ProductController extends AdminController {
 
         $model = new ProductNode;
         $product = Product::model()->findByPk($id);
-
-        $colors = $this->classifier->getGroup('color');
-        $sizes = $this->classifier->getGroup('size');
-
-        $productAttachments = array();
+        
         $nodes = ProductNode::model()->findAllByAttributes(array('product_id' => $id));
-        if ($nodes) {
-            foreach ($nodes AS $node) {
-                $nodeAttachments = Attachment::model()->getAttachments('productNode', $node->id);
-                if ($nodeAttachments) {
-                    $productAttachments = array_merge($productAttachments, $nodeAttachments);
-                }
-            }
-        }
 
         if (isset($_POST['ProductNode'])) {
             if ($_POST['ProductNode']['price'] == 0) {
@@ -165,34 +153,14 @@ class ProductController extends AdminController {
             $model->attributes = $_POST['ProductNode'];
             $model->product_id = $id;
 
-            $attachments = array();
-            foreach ($_POST AS $k => $v) {
-                $k = str_replace('qq-upload-handler-iframe', '', $k);
-                if (preg_match('/tmpfile([0-9]+)/i', $k)) {
-                    $attachments[] = $v;
-                }
-            }
-
             if (!$nodes) {
                 $model->main = 1;
             }
 
             $transaction = Yii::app()->db->beginTransaction();
             if ($model->save()) {
-                $result = Attachment::model()->saveAttachments($attachments, 'productNode', $model->id, $product->slug);
-                if (!is_array($result)) {
-                    if (isset($_POST['attachments'])) {
-                        foreach ($_POST['attachments'] AS $postAttachment) {
-                            $attachmentModel = Attachment::model()->findByPk($postAttachment);
-                            $attachmentModel->id = null;
-                            $attachmentModel->isNewRecord = true;
-                            $attachmentModel->module_id = $model->id;
-                            $attachmentModel->save();
-                        }
-                    }
-                    $transaction->commit();
-                    $this->redirect(array('/admin/product/nodes/' . $id));
-                }
+                $transaction->commit();
+                $this->redirect(array('/admin/product/nodes/' . $id));
             } else {
                 $transaction->rollback();
                 $errors = $model->getErrors();
@@ -202,9 +170,6 @@ class ProductController extends AdminController {
         $this->render('add_node', array(
             'errors' => $errors,
             'model' => $model,
-            'colors' => $colors,
-            'sizes' => $sizes,
-            'productAttachments' => $productAttachments,
         ));
     }
 
@@ -230,7 +195,7 @@ class ProductController extends AdminController {
             }
         }
 
-        $attachmentModels = Attachment::model()->getAttachments('productBig', $id);
+        $attachmentModels = Attachment::model()->getAttachments('product', $id);
 
         if (isset($_POST['Product'])) {
             $model->attributes = $_POST['Product'];
@@ -255,7 +220,7 @@ class ProductController extends AdminController {
             if ($model->save()) {
 
                 if ($contentModel->save()) {
-                    $result = Attachment::model()->saveAttachments($attachments, 'productBig', $model->id, $model->slug);
+                    $result = Attachment::model()->saveAttachments($attachments, 'product', $model->id, $model->slug);
                     if (!is_array($result)) {
                         $transaction->commit();
 
@@ -350,52 +315,16 @@ class ProductController extends AdminController {
         $model = ProductNode::model()->findByPk($id);
         $product = $model->product;
 
-        $colors = $this->classifier->getGroup('color');
-        $sizes = $this->classifier->getGroup('size');
-
-        $productAttachments = array();
-        $nodes = ProductNode::model()->findAllByAttributes(array('product_id' => $id));
-        if ($nodes) {
-            foreach ($nodes AS $node) {
-                $nodeAttachments = Attachment::model()->getAttachments('productNode', $node->id);
-                if ($nodeAttachments) {
-                    $productAttachments = array_merge($productAttachments, $nodeAttachments);
-                }
-            }
-        }
-
-        $attachmentModels = Attachment::model()->getAttachments('productNode', $id);
-
         if (isset($_POST['ProductNode'])) {
             if ($_POST['ProductNode']['price'] == 0) {
                 $_POST['ProductNode']['price'] = null;
             }
             $model->attributes = $_POST['ProductNode'];
 
-            $attachments = array();
-            foreach ($_POST AS $k => $v) {
-                $k = str_replace('qq-upload-handler-iframe', '', $k);
-                if (preg_match('/tmpfile([0-9]+)/i', $k)) {
-                    $attachments[] = $v;
-                }
-            }
-
             $transaction = Yii::app()->db->beginTransaction();
             if ($model->save()) {
-                $result = Attachment::model()->saveAttachments($attachments, 'productNode', $model->id, $product->slug);
-                if (!is_array($result)) {
-                    if (isset($_POST['attachments'])) {
-                        foreach ($_POST['attachments'] AS $postAttachment) {
-                            $attachmentModel = Attachment::model()->findByPk($postAttachment);
-                            $attachmentModel->id = null;
-                            $attachmentModel->isNewRecord = true;
-                            $attachmentModel->module_id = $model->id;
-                            $attachmentModel->save();
-                        }
-                    }
-                    $transaction->commit();
-                    $this->redirect(array('/admin/product/nodes/' . $product->id));
-                }
+                $transaction->commit();
+                $this->redirect(array('/admin/product/nodes/' . $product->id));
             } else {
                 $transaction->rollback();
                 $errors = $model->getErrors();
@@ -405,10 +334,6 @@ class ProductController extends AdminController {
         $this->render('edit_node', array(
             'errors' => $errors,
             'model' => $model,
-            'attachmentModels' => $attachmentModels,
-            'colors' => $colors,
-            'sizes' => $sizes,
-            'productAttachments' => $productAttachments,
         ));
     }
 

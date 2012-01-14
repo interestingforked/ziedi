@@ -38,6 +38,14 @@ echo $form->errorSummary(array($categoryModel, $contentModel));
     <?php echo $form->checkBox($categoryModel, 'active', array('class' => 'checkbox')); ?>
     <?php echo $form->labelEx($categoryModel, 'active'); ?>
     <span class="note error"><?php echo $form->error($categoryModel, 'active'); ?></span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+    <?php echo $form->checkBox($categoryModel, 'gift', array('class' => 'checkbox')); ?>
+    <?php echo $form->labelEx($categoryModel, 'gift'); ?>
+    <span class="note error"><?php echo $form->error($categoryModel, 'gift'); ?></span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+    <?php echo $form->checkBox($categoryModel, 'postcard', array('class' => 'checkbox')); ?>
+    <?php echo $form->labelEx($categoryModel, 'postcard'); ?>
+    <span class="note error"><?php echo $form->error($categoryModel, 'postcard'); ?></span>
 </p>
 <hr/>
 <p>
@@ -56,11 +64,6 @@ echo $form->errorSummary(array($categoryModel, $contentModel));
 <p>
     <?php echo $form->labelEx($contentModel, 'meta_description'); ?><br/>
     <?php echo $form->textArea($contentModel,'meta_description', array('class' => 'text medium')); ?>
-</p>
-<p class="fileupload">
-    <?php echo $form->labelEx($categoryModel, 'image'); ?><br/>
-    <?php echo $form->fileField($categoryModel,'image', array('class' => 'file', 'id' => 'fileupload')); ?>
-    <span id="uploadmsg">Max size 3Mb</span>
 </p>
 <hr/>
 <div id="tempAttachments"></div>

@@ -3,7 +3,6 @@
 class CartController extends Controller {
 
     public function actionIndex() {
-        Yii::app()->controller->redirect(array('/'));
         $referer = "/";
         if ($_POST) {
             $cart = $this->cart->getList();
@@ -15,7 +14,8 @@ class CartController extends Controller {
                 $this->cart->changeNode($_POST['productId'], $_POST['productNodeId'], $_POST['newProductNodeId'], $node->mainNode->price);
             }
             if ($_POST['action'] == 'addItem') {
-                $this->cart->addItem($_POST['productId'], $_POST['productNodeId'], $_POST['price']);
+                $productNode = ProductNode::model()->findByPk($_POST['productNodeId']);
+                $this->cart->addItem($_POST['productId'], $_POST['productNodeId'], $productNode->price);
                 $referer = (isset($_SERVER["HTTP_REFERER"])) ? preg_replace("/(\/[a-zA-Z0-9\-]+\-[0-9]+)/", "", $_SERVER["HTTP_REFERER"]) : '/';
             }
             if ($_POST['action'] == 'removeItem') {

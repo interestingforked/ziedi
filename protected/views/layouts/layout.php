@@ -4,12 +4,22 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <?php if ( ! empty($this->metaTitle)) $this->pageTitle = $this->metaTitle; ?>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="description" content="<?php echo CHtml::encode($this->metaDescription); ?>" />
     <meta name="keywords" content="<?php echo CHtml::encode($this->metaKeywords); ?>" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link href="/css/style.css" type="text/css" rel="stylesheet" />
+    <link href="/css/jquery.fancybox-1.3.4.css" type="text/css" rel="stylesheet" /> 
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.easing-1.3.pack.js"></script>
+    <script type="text/javascript" src="/js/jquery.mousewheel-3.0.4.pack.js"></script> 
+    <script type="text/javascript" src="/js/jquery.fancybox-1.3.4.pack.js"></script>
 </head>
+<?php 
+$noRightColumn = in_array($this->getId(), array(
+    'product', 'cart'
+));
+?>
 <body>
     <div id="layout">
         <!-- header starts here-->
@@ -33,7 +43,7 @@
                                     <?php if (Yii::app()->params['currency'] == 'LVL'): ?><li class="current">LVL</li><?php else: ?><li><a href="?currency=LVL">LVL</a></li><?php endif; ?>
                                     <?php if (Yii::app()->params['currency'] == 'EUR'): ?><li class="current">EUR</li><?php else: ?><li><a href="?currency=EUR">EUR</a></li><?php endif; ?>
                             </ul></td>
-                            <td><div class="over-cart"><div class="cart"><img src="/images/shop_cart.png" width="22" height="20" alt="pirkumu grozs" /> <?php echo CHtml::link(Yii::t('app', 'cart'), array('/cart')); ?></div></div></td>
+                            <td><div class="over-cart"><div class="cart"><img src="/images/shop_cart.png" width="22" height="20" alt="pirkumu grozs" /> <?php echo CHtml::link(Yii::t('app', 'Cart'), array('/cart')); ?></div></div></td>
                         </tr>
                     </table>
                 </div>
@@ -76,13 +86,15 @@
                             <table class="center">
                                 <tr>
                                     <td class="content">
-                                        <div class="wrap">
+                                        <div class="wrap" <?php echo ($noRightColumn) ? 'style="padding-right:0;"': ''; ?>>
                                             <?php echo $content; ?>
                                         </div>
                                     </td>
+                                    <?php if (!$noRightColumn): ?>
                                     <td class="page-right">
                                         <?php echo $this->rightBlock; ?>
                                     </td>
+                                    <?php endif; ?>
                                 </tr>
                             </table>
                         </td>

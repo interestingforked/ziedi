@@ -15,6 +15,10 @@ class Controller extends CController {
     public $currencyLink = '';
     public $topBlock = '';
     public $rightBlock = '';
+    
+    public $settings;
+    public $currency;
+    
     protected $classifier;
     protected $wishlistManager;
     protected $cart;
@@ -66,6 +70,14 @@ class Controller extends CController {
             'ru' => str_replace('/lv/', '/ru/', $link),
             'lv' => str_replace('/ru/', '/lv/', $link),
         );
+        
+        $this->settings = array();
+        $settings = Setting::model()->findAll();
+        foreach ($settings as $setting) {
+            $this->settings[$setting->key] = $setting->value;
+        }
+        
+        $this->currency = Yii::app()->params['currency'];
 
         return parent::beforeAction($action);
     }

@@ -4,6 +4,30 @@ class CategoryController extends Controller {
 
     public function actionIndex($id) {
         $category = Category::model()->getCategory($id);
+        if (Yii::app()->request->isAjaxRequest) {
+            if ($category) {
+                if ($category->products) {
+                    $content = '';
+                    foreach ($category->products AS $categoryProduct) {
+                        $product = $categoryProduct->getProduct();
+                        $image = Attachment::model()->getAttachment('product', $product->id);
+                        $imageLink = Yii::app()->params['images'] . $image->image;
+                        $thumb = CHtml::link(CHtml::image(Image::thumb(Yii::app()->params['images'] . $image->image, 80), $product->content->title), 
+                                CHtml::normalizeUrl(array('/'.$category->slug.'/'.$product->slug.'-'.$product->id)), array('class' => 'gift-image'));
+                        $content .= '<div class="one"><div class="img">'.$thumb.'</div>'
+                            .'<span>'.number_format($product->mainNode->price,2,'.','').'</span>'
+                            .'<span><a href="#" class="gift-item-order">Pasūtīt</a></span></div>';
+                    }
+                    echo $content;
+                } else {
+                    echo Yii::t('app', 'Products not found');
+                }
+            } else {
+                echo 'false';
+            }
+            Yii::app()->end();
+        }
+        
         if (!$category) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
@@ -39,23 +63,7 @@ class CategoryController extends Controller {
                     if ($product->deleted == 1)
                         continue;
                     $productContent = $product->getProduct();
-                    if (isset($_GET['orderby'])) {
-                        switch ($_GET['orderby']) {
-                            case 'price':
-                                $products[$productContent->mainNode->price . $productContent->id] = $productContent;
-                                break;
-                            case 'name':
-                                $products[$productContent->content->title . $productContent->id] = $productContent;
-                                break;
-                            default:
-                                $products[$productContent->sort . $productContent->id] = $productContent;
-                        }
-                    } else {
-                        $products[] = $product;
-                    }
-                }
-                if (isset($_GET['orderby'])) {
-                    ksort($products);
+                    $products[] = $product;
                 }
                 $total = count($products);
                 $limit = 6;
@@ -72,19 +80,11 @@ class CategoryController extends Controller {
 
                 $session = new CHttpSession();
                 $session->open();
-                if (isset($_GET['orderby']))
-                    $session->add('categoryOrder', $_GET['orderby']);
-                else
-                    $session->remove('categoryOrder');
                 if (isset($_GET['page']))
                     $session->add('categoryPage', $_GET['page']);
                 else
                     $session->remove('categoryPage');
-                if (isset($_GET['viewall']))
-                    $session->add('categoryViewAll', $_GET['viewall']);
-                else
-                    $session->remove('categoryViewAll');
-
+                
                 $this->render('products', array(
                     'category' => $category,
                     'products' => $products,

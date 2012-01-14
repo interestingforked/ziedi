@@ -12,7 +12,10 @@ class ProductController extends Controller {
             $categoryId = implode('/', $id);
             $category = Category::model()->getCategory($categoryId);
             if (!$category) {
-                throw new CHttpException(404, 'The requested page does not exist.');
+                if (Yii::app()->request->isAjaxRequest)
+                    throw new CHttpException(404, 'The requested page does not exist.');
+                else
+                    echo 'false';
             }
             if ($category->parent_id > 1) {
                 $parentCategories = array();
@@ -28,13 +31,27 @@ class ProductController extends Controller {
         $productId = end($productId);
         $productModel = Product::model()->findByPk($productId);
         if (!$productModel) {
-            throw new CHttpException(404, 'The requested page does not exist.');
+            if (Yii::app()->request->isAjaxRequest)
+                throw new CHttpException(404, 'The requested page does not exist.');
+            else
+                echo 'false';
         }
 
         $nodeId = (isset($_GET['node']) AND $_GET['node'] > 0) ? $_GET['node'] : 0;
         $product = $productModel->getProduct($nodeId);
         if (!$product) {
-            throw new CHttpException(404, 'The requested page does not exist.');
+            if (Yii::app()->request->isAjaxRequest)
+                throw new CHttpException(404, 'The requested page does not exist.');
+            else
+                echo 'false';
+        }
+        
+        if (Yii::app()->request->isAjaxRequest) {
+            $this->renderPartial('ajax', array(
+                'category' => $category,
+                'product' => $product,
+            ));
+            Yii::app()->end();
         }
 
         $this->metaTitle = $product->content->meta_title;
@@ -43,24 +60,20 @@ class ProductController extends Controller {
 
         $session = new CHttpSession();
         $session->open();
-        $categoryOrder = $session->get('categoryOrder');
-        if ($categoryOrder) {
-            $categoryId = $categoryId . '?orderby=' . $categoryOrder;
-        }
         $categoryPage = $session->get('categoryPage');
         if ($categoryPage) {
             $categoryId = $categoryId . (($categoryOrder) ? '&' : '?') . 'page=' . $categoryPage;
         }
-        $categoryViewAll = $session->get('categoryViewAll');
-        if ($categoryViewAll) {
-            $categoryId = $categoryId . (($categoryOrder) ? '&' : '?') . 'viewall=' . $categoryViewAll;
-        }
+        
+        $giftRoot = Category::model()->getGiftParent();
+        $gifts = $giftRoot->getListed('gifts');
 
         $this->breadcrumbs[] = $product->content->title;
         $this->render('index', array(
             'category' => $category,
             'categoryLink' => $categoryId,
             'product' => $product,
+            'gifts' => $gifts,
         ));
     }
 

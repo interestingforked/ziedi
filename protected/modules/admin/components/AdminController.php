@@ -127,6 +127,11 @@ class AdminController extends CController {
                 'url' => array('/admin/deleted'),
                 'active' => ($activeMenuId == 'deleted')
             ),
+            array(
+                'label' => 'Settings',
+                'url' => array('/admin/setting'),
+                'active' => ($activeMenuId == 'setting')
+            ),
         );
 
         $this->languages = Yii::app()->params['languages'];

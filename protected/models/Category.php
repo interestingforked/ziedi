@@ -25,11 +25,11 @@ class Category extends CActiveRecord {
     public function rules() {
         return array(
             array('slug', 'required'),
-            array('active', 'numerical', 'integerOnly' => true),
+            array('active, sort, gift, postcard', 'numerical', 'integerOnly' => true),
             array('parent_id', 'length', 'max' => 11),
             array('slug, image', 'length', 'max' => 250),
             array('created', 'safe'),
-            array('id, parent_id, active, sort, slug, image, created', 'safe', 'on' => 'search'),
+            array('id, parent_id, active, gift, postcard, sort, slug, image, created', 'safe', 'on' => 'search'),
         );
     }
 
@@ -64,6 +64,18 @@ class Category extends CActiveRecord {
         }
         $category->content = Content::model()->getModuleContent('category', $category->id);
         return $category;
+    }
+    
+    public function getCategorySlug($id) {
+        $category = $this->findByPk($id);
+        return ($category) ? $category->slug : false;
+    }
+    
+    public function getGiftParent() {
+        return $this->findByAttributes(array(
+            'parent_id' => 1,
+            'gift' => 1
+        ));
     }
 
     public function getListed($id = '', $visibleAll = false) {
