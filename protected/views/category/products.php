@@ -20,7 +20,7 @@ foreach ($products as $product):
         <td class="border">
             <div><?php echo $image; ?></div>
             <div class="fl-title"><?php echo CHtml::link($product->content->title, $link, array('title' => $product->content->title)); ?></div>
-            <div class="price"><?php echo number_format($product->mainNode->price,2,'.','').Yii::app()->params['currencies'][$this->currency]; ?></div>
+            <div class="price"><?php echo number_format($product->mainNode->price / $this->currencyValue,2,'.','').Yii::app()->params['currencies'][$this->currency]; ?></div>
         </td>
 <?php if ($j == 1): ?>
         <td style="width:15px;">&nbsp;</td>

@@ -18,6 +18,7 @@ class Controller extends CController {
     
     public $settings;
     public $currency;
+    public $currencyValue;
     
     protected $classifier;
     protected $wishlistManager;
@@ -77,7 +78,22 @@ class Controller extends CController {
             $this->settings[$setting->key] = $setting->value;
         }
         
-        $this->currency = Yii::app()->params['currency'];
+        $session = new CHttpSession();
+        $session->open();
+        
+        if ($session->contains('currency')) {
+            $this->currency = $session->get('currency');
+        } else {
+            $this->currency = Yii::app()->params['currency'];
+            $session->add('currency', $this->currency);
+        }
+
+        if (isset($_GET['currency']) AND isset(Yii::app()->params['currencies'][$_GET['currency']])) {
+            $this->currency = $_GET['currency'];
+            $session->add('currency', $this->currency);
+        }
+
+        $this->currencyValue = $this->settings['CURRENCY_'.strtoupper($this->currency).'_VALUE'];
 
         return parent::beforeAction($action);
     }

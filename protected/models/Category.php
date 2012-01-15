@@ -88,15 +88,10 @@ class Category extends CActiveRecord {
             }
         $categoryContent = Content::model()->getModuleContent('category', $this->id);
         $active = (preg_match("/" . str_replace("/", "\/", $this->slug) . "/", $id) > 0);
-        $parent = $this->getparent;
-        $activeParent = false;
-        if ($parent)
-            $activeParent = (preg_match("/" . str_replace("/", "\/", $parent->slug) . "/", $id) > 0);
         $returnarray = array(
             'label' => (isset($categoryContent->title)) ? $categoryContent->title : '',
-            'url' => array('/' . $this->slug),
-            'active' => $active,
-            'visible' => ($active OR $activeParent OR $this->parent_id == 1 OR $this->parent_id == 2 OR $visibleAll)
+            'url' => ($this->childs) ? '#' : array('/' . $this->slug),
+            'active' => $active
         );
         if ($subitems != array())
             $returnarray = array_merge($returnarray, array('items' => $subitems));

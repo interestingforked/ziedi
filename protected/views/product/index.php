@@ -77,7 +77,7 @@ $(document).ready(function () {
                 ?>
                 <div class="prod-title"><h1><?php echo $product->content->title; ?></h1></div>
                 <div class="prod-desc"><?php echo $product->content->body; ?></div>
-                <div class="prod-price"><?php echo number_format($product->mainNode->price,2,'.','').Yii::app()->params['currencies'][$this->currency]; ?></div>
+                <div class="prod-price"><?php echo number_format($product->mainNode->price / $this->currencyValue,2,'.','').Yii::app()->params['currencies'][$this->currency]; ?></div>
                 <ul class="prod-size">
                     <?php foreach ($product->productNodes AS $node): ?>
                     <li><input id="<?php echo $node->id; ?>" type="radio" name="productNodeId" value="<?php echo $node->id; ?>">&nbsp;<label for="<?php echo $node->id; ?>"><?php echo $node->size; ?></label></li>

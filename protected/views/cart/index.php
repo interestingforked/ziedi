@@ -7,6 +7,9 @@
             </ul>
         </div>
         <div class="over-ordering">
+            <?php if (!$items): ?>
+            <div class="options"><?php echo Yii::t('app', 'Cart is empty'); ?></div>
+            <?php else: ?>
             <table class="sh-cart">
                 <?php foreach ($items AS $item): ?>
                 <tr>
@@ -45,6 +48,7 @@
             </table>
             <div class="options"><input type="checkbox" />&nbsp; Piegādāt anonīmi</div>
             <div class="options"><input type="checkbox" />&nbsp; Bezmaksas piegādes foto</div>
+            <?php endif; ?>
         </div>
         <div style="text-align:right; margin-top:10px; padding-right:10px;">
             <div><b style="font-weight:bold;font-size:85%;">Kopsumma bez piegādes: 88.00 Ls</b></div>

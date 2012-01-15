@@ -14,6 +14,7 @@
     <script type="text/javascript" src="/js/jquery.easing-1.3.pack.js"></script>
     <script type="text/javascript" src="/js/jquery.mousewheel-3.0.4.pack.js"></script> 
     <script type="text/javascript" src="/js/jquery.fancybox-1.3.4.pack.js"></script>
+    <script type="text/javascript" src="/js/web.js"></script>
 </head>
 <?php 
 $noRightColumn = in_array($this->getId(), array(
@@ -40,8 +41,8 @@ $noRightColumn = in_array($this->getId(), array(
                     <table class="picto">
                         <tr>
                             <td><ul class="currency">
-                                    <?php if (Yii::app()->params['currency'] == 'LVL'): ?><li class="current">LVL</li><?php else: ?><li><a href="?currency=LVL">LVL</a></li><?php endif; ?>
-                                    <?php if (Yii::app()->params['currency'] == 'EUR'): ?><li class="current">EUR</li><?php else: ?><li><a href="?currency=EUR">EUR</a></li><?php endif; ?>
+                                    <?php if ($this->currency == 'LVL'): ?><li class="current">LVL</li><?php else: ?><li><a href="?currency=LVL">LVL</a></li><?php endif; ?>
+                                    <?php if ($this->currency == 'EUR'): ?><li class="current">EUR</li><?php else: ?><li><a href="?currency=EUR">EUR</a></li><?php endif; ?>
                             </ul></td>
                             <td><div class="over-cart"><div class="cart"><img src="/images/shop_cart.png" width="22" height="20" alt="pirkumu grozs" /> <?php echo CHtml::link(Yii::t('app', 'Cart'), array('/cart')); ?></div></div></td>
                         </tr>
@@ -70,7 +71,6 @@ $noRightColumn = in_array($this->getId(), array(
                                 $this->widget('zii.widgets.CMenu', array(
                                     'items' => $this->categories['items'],
                                     'activeCssClass' => 'current',
-                                    'activateParents' => true,
                                     'submenuHtmlOptions' => array(
                                         'class' => 'submenu'
                                     ),

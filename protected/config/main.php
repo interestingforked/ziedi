@@ -75,8 +75,8 @@ return array(
         ),
         'defaultLanguage' => 'lv',
         'currencies' => array(
-            'EUR' => '&euro;',
-            'LVL' => 'Ls'
+            'EUR' => ' &euro;',
+            'LVL' => ' Ls'
         ),
         'currency' => 'LVL',
         'images' => '/images/products/',

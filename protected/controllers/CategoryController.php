@@ -15,7 +15,7 @@ class CategoryController extends Controller {
                         $thumb = CHtml::link(CHtml::image(Image::thumb(Yii::app()->params['images'] . $image->image, 80), $product->content->title), 
                                 CHtml::normalizeUrl(array('/'.$category->slug.'/'.$product->slug.'-'.$product->id)), array('class' => 'gift-image'));
                         $content .= '<div class="one"><div class="img">'.$thumb.'</div>'
-                            .'<span>'.number_format($product->mainNode->price,2,'.','').'</span>'
+                            .'<span>'.number_format($product->mainNode->price / $this->currencyValue,2,'.','').'</span>'
                             .'<span><a href="#" class="gift-item-order">Pasūtīt</a></span></div>';
                     }
                     echo $content;
