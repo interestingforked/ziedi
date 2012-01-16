@@ -115,28 +115,20 @@
                 </div>
 
                 <div class="gift-wrap">
-                    <div>Приложить <strong>подарок</strong></div>
+                    <div><?php echo Yii::t('app', 'Приложить <strong>подарок</strong>'); ?></div>
                     <div class="selection">
-                        <ul class="gift-select">
-                            <li class="current">Игрушки</li>
-                            <li><a href="">Шарфы</a></li>
-                            <li><a href="">Украшения</a></li>
-                            <li><a href="">Конфеты</a></li>
-                        </ul>
+                        <?php
+                        $this->widget('zii.widgets.CMenu', array(
+                            'items' => $gifts['items'],
+                            'activeCssClass' => 'current',
+                            'activateParents' => true,
+                            'htmlOptions' => array(
+                                'class' => 'gift-select',
+                            )
+                        ));
+                        ?>
                     </div>
-                    <div class="list">
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="80" height="80" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/kart.jpg" width="80" height="47" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/kart1.jpg" width="70" height="80" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="70" height="70" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="70" height="70" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="70" height="70" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="70" height="70" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="70" height="70" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="70" height="70" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="70" height="70" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="70" height="70" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                    </div>
+                    <div class="list"></div>
                 </div>
             </td>
         </tr>

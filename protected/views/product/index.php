@@ -1,51 +1,7 @@
 <?php $this->pageTitle = Html::formatTitle($product->content->title, $product->content->meta_title) . ' - ' . $this->pageTitle; ?>
 <script type="text/javascript">
 $(document).ready(function () {
-    $('input[name=productNodeId]:first').attr('checked', true);
-    
-    var firstGiftUrl = $('.gift-select a:first').attr('href');
-    $.get(firstGiftUrl, function (data) {
-        $('.list').html(data);
-    });
-    
-    $('.gift-select a').click(function () {
-        var url = $(this).attr('href');
-        $.get(url, function (data) {
-            $('.list').html(data);
-        });
-        return false;
-    });
-    
-    $('.list .img a').live('click', function () {
-        $.fancybox({
-            'transitionIn' : 'elastic',
-            'transitionOut' : 'elastic',
-            'href' : this.href,
-            'width' : 640,
-            'height' : 480,
-            'ajax' : {
-                type : "GET"
-            }
-        });
-        return false;
-    });
-    
-    $('.images img').each(function (index) {
-        if (index > 0) $(this).css('display', 'none');
-    });
-    
-    $('.thumb img').hover(function () {
-        var imageID = $(this).attr('id');
-        $('.images img').css('display', 'none');
-        $('#' + imageID.replace('thumb', 'big')).css('display', 'inline');
-    });
-    
-    $('a[rel="image-group"]').fancybox({
-        'titleShow' : false,
-        'transitionIn' : 'elastic',
-        'transitionOut' : 'elastic',
-        'cyclic':true
-    });
+    $('input[name=productNodeId]:first').click().attr('checked', true);
 });
 </script>
 <div class="border">
@@ -74,6 +30,7 @@ $(document).ready(function () {
                 echo CHtml::beginForm(array('/cart'));
                 echo CHtml::hiddenField('action', 'addItem');
                 echo CHtml::hiddenField('productId', $product->id);
+                echo CHtml::hiddenField('price', $product->mainNode->price);
                 ?>
                 <div class="prod-title"><h1><?php echo $product->content->title; ?></h1></div>
                 <div class="prod-desc"><?php echo $product->content->body; ?></div>

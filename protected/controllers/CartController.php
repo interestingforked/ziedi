@@ -14,8 +14,7 @@ class CartController extends Controller {
                 $this->cart->changeNode($_POST['productId'], $_POST['productNodeId'], $_POST['newProductNodeId'], $node->mainNode->price);
             }
             if ($_POST['action'] == 'addItem') {
-                $productNode = ProductNode::model()->findByPk($_POST['productNodeId']);
-                $this->cart->addItem($_POST['productId'], $_POST['productNodeId'], $productNode->price);
+                $this->cart->addItem($_POST['productId'], $_POST['productNodeId'], $_POST['price']);
                 $referer = (isset($_SERVER["HTTP_REFERER"])) ? preg_replace("/(\/[a-zA-Z0-9\-]+\-[0-9]+)/", "", $_SERVER["HTTP_REFERER"]) : '/';
             }
             if ($_POST['action'] == 'removeItem') {
@@ -77,6 +76,9 @@ class CartController extends Controller {
         foreach ($activeCountries AS $activeCountry) {
             $countries[] = $activeCountry->title;
         }
+        
+        $giftRoot = Category::model()->getGiftParent();
+        $gifts = $giftRoot->getListed('gifts');
 
         $this->breadcrumbs[] = Yii::t('app', 'Cart');
         $this->render('index', array(
@@ -88,6 +90,7 @@ class CartController extends Controller {
             'saleSum' => $saleSum,
             'discountType' => $discountType,
             'referer' => $referer,
+            'gifts' => $gifts
         ));
     }
 

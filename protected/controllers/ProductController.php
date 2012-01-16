@@ -37,7 +37,7 @@ class ProductController extends Controller {
                 echo 'false';
         }
 
-        $nodeId = (isset($_GET['node']) AND $_GET['node'] > 0) ? $_GET['node'] : 0;
+        $nodeId = Yii::app()->getRequest()->getParam('node', 0);
         $product = $productModel->getProduct($nodeId);
         if (!$product) {
             if (Yii::app()->request->isAjaxRequest)
@@ -47,6 +47,10 @@ class ProductController extends Controller {
         }
         
         if (Yii::app()->request->isAjaxRequest) {
+            if ($nodeId > 0) {
+                echo number_format($product->mainNode->price / $this->currencyValue,2,'.','').Yii::app()->params['currencies'][$this->currency];
+                Yii::app()->end();
+            }
             $this->renderPartial('ajax', array(
                 'category' => $category,
                 'product' => $product,
