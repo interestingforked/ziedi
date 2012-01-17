@@ -19,8 +19,11 @@ $(document).ready(function () {
             url: document.URL,
             data: 'node=' + productNodeId,
             success: function (responseData) {
-                $('.prod-price').text(responseData);
                 $('#price').val(responseData);
+                
+                var priceText = $('.prod-price').text();
+                $('.prod-price').text(priceText.replace(/\d+\.\d+/, responseData));
+                
             },
             dataType: 'html'
         });
@@ -28,11 +31,20 @@ $(document).ready(function () {
     
     $('.gift-select a:first').click();
     
-    $('.gift-select a').click(function () {
+    $('.postcardList a').click(function () {
         var url = $(this).attr('href');
         if (url == '#') return false;
         $.get(url, function (data) {
-            $('.list').html(data);
+            $('#postcardList').html(data);
+        });
+        return false;
+    });
+    
+    $('.giftList a').click(function () {
+        var url = $(this).attr('href');
+        if (url == '#') return false;
+        $.get(url, function (data) {
+            $('#giftList').html(data);
         });
         return false;
     });

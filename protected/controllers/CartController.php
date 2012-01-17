@@ -79,6 +79,9 @@ class CartController extends Controller {
         
         $giftRoot = Category::model()->getGiftParent();
         $gifts = $giftRoot->getListed('gifts');
+        
+        $postcardRoot = Category::model()->getPostcardParent();
+        $postcards = $postcardRoot->getListed('postcard');
 
         $this->breadcrumbs[] = Yii::t('app', 'Cart');
         $this->render('index', array(
@@ -90,7 +93,8 @@ class CartController extends Controller {
             'saleSum' => $saleSum,
             'discountType' => $discountType,
             'referer' => $referer,
-            'gifts' => $gifts
+            'gifts' => $gifts,
+            'postcards' => $postcards
         ));
     }
 

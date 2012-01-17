@@ -60,26 +60,20 @@
         <tr>
             <td colspan="5">
                 <div class="gift-wrap">
-                    <div>Приложить <strong>Открытку</strong></div>
+                    <div><?php echo Yii::t('app', 'Приложить <strong>Открытку</strong>'); ?></div>
                     <div class="selection">
-                        <ul class="gift-select">
-                            <li class="current">Любимой</li>
-                            <li><a href="#">Маме</a></li>
-                        </ul>
+                        <?php
+                        $this->widget('zii.widgets.CMenu', array(
+                            'items' => $postcards['items'],
+                            'activeCssClass' => 'current',
+                            'activateParents' => true,
+                            'htmlOptions' => array(
+                                'class' => 'gift-select postcardList',
+                            )
+                        ));
+                        ?>
                     </div>
-                    <div class="list">
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="80" height="80" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/kart.jpg" width="80" height="47" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/kart1.jpg" width="70" height="80" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="70" height="70" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="70" height="70" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="70" height="70" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="70" height="70" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="70" height="70" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="70" height="70" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="70" height="70" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                        <div class="one"><div class="img"><img src="img/fl1.jpg" width="70" height="70" /></div><span>2.00Ls</span><span><a href="">Pasūtīt</a></span></div>
-                    </div>
+                    <div class="list" id="postcardList"></div>
                 </div>
 
                 <div class="gift-wrap">
@@ -123,12 +117,12 @@
                             'activeCssClass' => 'current',
                             'activateParents' => true,
                             'htmlOptions' => array(
-                                'class' => 'gift-select',
+                                'class' => 'gift-select giftList',
                             )
                         ));
                         ?>
                     </div>
-                    <div class="list"></div>
+                    <div class="list" id="giftList"></div>
                 </div>
             </td>
         </tr>

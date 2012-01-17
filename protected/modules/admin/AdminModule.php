@@ -10,7 +10,7 @@ class AdminModule extends CWebModule {
             'application.modules.user.models.*',
             'application.modules.user.components.*',
         ));
-        Yii::app()->language = 'ru';
+        Yii::app()->language = 'lv';
 
         $errorHandler = Yii::app()->getErrorHandler();
         $errorHandler->errorAction = 'admin/default/error';

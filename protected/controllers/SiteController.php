@@ -3,11 +3,23 @@
 class SiteController extends Controller {
 
     public function actionIndex() {
+        $this->metaTitle = $this->settings['INDEX_TITLE'];
         
-        $this->metaTitle = Yii::app()->params['indexTitle'];
-
+        $products = array();
+        $category = Category::model()->getCategory($this->settings['INDEX_CATEGORY']);
+        if ($category) {
+            foreach ($category->products AS $product) {
+                if ($product->active == 0)
+                    continue;
+                if ($product->deleted == 1)
+                    continue;
+                $product->getProduct();
+                $products[] = $product;
+            }
+        }
         $this->render('index', array(
-
+            'category' => $category,
+            'products' => $products,
         ));
     }
 

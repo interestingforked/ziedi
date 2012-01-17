@@ -84,7 +84,7 @@ class Controller extends CController {
         if ($session->contains('currency')) {
             $this->currency = $session->get('currency');
         } else {
-            $this->currency = Yii::app()->params['currency'];
+            $this->currency = $this->settings['DEFAULT_CURRENCY'];
             $session->add('currency', $this->currency);
         }
 

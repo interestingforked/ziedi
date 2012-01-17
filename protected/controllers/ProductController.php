@@ -48,7 +48,7 @@ class ProductController extends Controller {
         
         if (Yii::app()->request->isAjaxRequest) {
             if ($nodeId > 0) {
-                echo number_format($product->mainNode->price / $this->currencyValue,2,'.','').Yii::app()->params['currencies'][$this->currency];
+                echo number_format($product->mainNode->price / $this->currencyValue,2,'.','');
                 Yii::app()->end();
             }
             $this->renderPartial('ajax', array(

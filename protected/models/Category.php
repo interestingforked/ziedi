@@ -73,8 +73,13 @@ class Category extends CActiveRecord {
     
     public function getGiftParent() {
         return $this->findByAttributes(array(
-            'parent_id' => 1,
             'gift' => 1
+        ));
+    }
+    
+    public function getPostcardParent() {
+        return $this->findByAttributes(array(
+            'postcard' => 1
         ));
     }
 

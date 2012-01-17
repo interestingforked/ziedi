@@ -11,7 +11,6 @@ class CategoryController extends Controller {
                     foreach ($category->products AS $categoryProduct) {
                         $product = $categoryProduct->getProduct();
                         $image = Attachment::model()->getAttachment('product', $product->id);
-                        $imageLink = Yii::app()->params['images'] . $image->image;
                         $thumb = CHtml::link(CHtml::image(Image::thumb(Yii::app()->params['images'] . $image->image, 80), $product->content->title), 
                                 CHtml::normalizeUrl(array('/'.$category->slug.'/'.$product->slug.'-'.$product->id)), array('class' => 'gift-image'));
                         $content .= '<div class="one"><div class="img">'.$thumb.'</div>'
@@ -63,7 +62,9 @@ class CategoryController extends Controller {
                     if ($product->deleted == 1)
                         continue;
                     $productContent = $product->getProduct();
-                    $products[] = $product;
+                    if ($product->mainNode) {
+                        $products[] = $product;
+                    }
                 }
                 $total = count($products);
                 $limit = 6;
