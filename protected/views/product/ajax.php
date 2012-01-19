@@ -24,7 +24,6 @@ $(document).ready(function () {
                 <div class="prod-title"><h1><?php echo $product->content->title; ?></h1></div>
                 <div class="prod-desc"><?php echo $product->content->body; ?></div>
                 <div class="prod-price"><?php echo number_format($product->mainNode->price / $this->currencyValue,2,'.','').Yii::app()->params['currencies'][$this->currency]; ?></div>
-                <input class="prod-order" type="button" name="" value="<?php echo Yii::t('app', 'Buy'); ?>">
                 <?php echo CHtml::endForm(); ?>
             </td>
         </tr>

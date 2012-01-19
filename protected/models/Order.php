@@ -91,6 +91,13 @@ class Order extends CActiveRecord {
             'status' => $status,
         ));
     }
+    
+    public function getBySessionId($sessionId, $status = 1) {
+        return $this->ordered()->findByAttributes(array(
+            'session_id' => $sessionId,
+            'status' => $status,
+        ));
+    }
 
     public function getByOrderKey($orderKey) {
         return $this->ordered()->findByAttributes(array(

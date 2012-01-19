@@ -13,7 +13,7 @@ input radio {margin:0; padding:0;}
 table {border-collapse:collapse;}
 ol,ul{list-style-type:none;}
 
-h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:bold;line-height:1.0;margin:0 0 0.2em 0;color:#e88800}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:bold;line-height:1.0;margin:0 0 0.2em 0;color:#a41d2e;}
 h1{font-size:120%;font-weight:normal; margin-top:0.3em;}
 h2{font-size:110%;font-weight:normal;margin-top:0.3em}
 h3{font-weight:normal;font-size:113%;margin-top:1em}
@@ -30,7 +30,7 @@ p {margin-bottom:6px;}
 
 a,a:visited{text-decoration:underline}
 a,.navigation a:visited{color:#254e2d;cursor:pointer}
-a:hover{color:#a61925 !important}
+a:hover{color:#a61925;}
 /*****************/
 /* PAGE LAYOUT  */
 /*****************/
@@ -85,8 +85,10 @@ td.content div.wrap .border{border:solid 1px #e5e5e5;-webkit-border-radius: 5px;
 .logo {margin-bottom:15px; margin-left:5px;}
 ul.lang {margin-bottom:13px; margin-left:10px;}
 ul.lang, ul.currency {margin-top:8px;}
-.lang li, ul.currency li {display:block;float:left;white-space:nowrap;padding:4px 12px 4px 9px; font-size: 12px;}
-.lang li.current, ul.currency li.current {background:url(/images/bg_current.gif) no-repeat right;}
+.lang li, ul.currency li {display:block;float:left;white-space:nowrap;padding:4px 12px 4px 10px; font-size: 12px;}
+.lang li.current, ul.currency li.current {background:url(/images/bg_current.gif) no-repeat right;color:#ffffff;}
+ul.lang li a, ul.currency li a {text-decoration:none;}
+ul.lang li a:hover, ul.currency li a:hover {text-decoration:underline;}
 table.picto {}
 table.picto td{vertical-align:top;}
 .over-cart {padding:6px; margin:2px 0 0 25px;}
@@ -121,31 +123,36 @@ table.picto td{vertical-align:top;}
 }
 #banner img {height: 151px; position: absolute; width: 1400px;}
 /* MENU */
-.navigation {display:block;padding-right:15px; padding-bottom:20px; border:solid 1px #e5e5e5;
+div.left-navigation {display:block;font-size:87.5%;padding:5px 15px 20px 15px; border:solid 1px #e5e5e5;
              -webkit-border-radius: 5px;
              -moz-border-radius: 5px;
              border-radius: 5px;}
-.navigation li {display:block;padding:4px 10px 7px 10px; margin-left:15px;}
-.navigation li a {text-decoration:none;}
-.navigation li a:hover {text-decoration:underline;}
-.navigation li.current {background:url(/images/bg_menu.gif) no-repeat right;}
-.navigation li.current a {color:#254e2d;}
-ul.submenu {margin-top:6px;}
-ul.submenu li{padding:2px 10px 4px 7px; margin-left:0px; font-size:90%;}
-ul.submenu li.current {background:url(/images/bg_menu.gif) no-repeat right; color:#fff;}
-ul.submenu li.current a {text-decoration:none; color:#fff;}
-ul.submenu li.current a:hover {color:#fff;}
+			 
+ul.navigation li {display:block;margin: 0 0 0.4em;}
+ul.navigation li a {text-decoration:none;}
+ul.navigation li a:hover {text-decoration:underline;}
+
+ul.navigation b {background:url(/images/bg_menu.gif) no-repeat right;padding:2px 18px 3px 6px;font-weight:normal;margin-left:-6px;position:relative;}
+ul.submenu {margin:0.4em 0 0.8em 15px;}
+ul.submenu li{font-size:87.5%;}
+ul.navigation li.current b a {text-decoration:none; color:#ffffff;}
+ul.navigation b a:hover {text-decoration:none; color:#ffffff;}
+
 /* PAGE MIDDLE */
 table.flowers, table.sh-cart, table.gifts, table.ordering {width:100%; height:100%;}
 table.flowers td.border {width:49%; border:solid 1px #e5e5e5; padding:2px 2px 20px 2px;text-align:center; vertical-align:top;}
 table.flowers td {vertical-align:top; padding:2px 10px 20px 10px;}
 table.flowers td.left {width:300px;}
 table.flowers strong{font-weight:bold;}
+.images {height:300px;}
 .thumb img {border:solid 1px #307714; margin:0 3px 3px 0;}
+div.img-height{height:220px;}
 .fl-title {font-weight:bold; color:#307714; font-size:90%; margin:10px;}
-.prod-title {color:#307714;}
+.fl-title a {text-decoration:none;}
+.fl-title a:hover {text-decoration:underline;}
+.prod-title h1 {color:#000000;font-size:90%;font-weight:bold;}
 .prod-desc {margin:10px 0 10px 0;}
-.prod-price {margin:20px 0 10px 0; font-weight:bold; font-size:90%;}
+.prod-price {margin:20px 0 10px 0; font-weight:bold; font-size:90%;color:#a41d2e;}
 input.dig {width:40px; text-align:center;}
 input.prod-order {padding:4px 13px;}
 ul.prod-size {margin-bottom:20px;font-size:80%;}
@@ -205,3 +212,5 @@ table.innerTable td {padding:0}
 .bmenu {padding-left:10px;}
 ul.bot-menu{line-height:1;} 
 ul.bot-menu li {display:block; float:left;white-space:nowrap;padding:6px 10px}
+ul.bot-menu li a{text-decoration:none;}
+ul.bot-menu li a:hover{text-decoration:underline;}

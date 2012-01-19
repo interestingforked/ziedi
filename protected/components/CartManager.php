@@ -5,21 +5,18 @@ class CartManager {
     protected $manager;
 
     public function __construct() {
-        if (Yii::app()->user->isGuest)
-            $this->manager = new CartHttpSession();
-        else
-            $this->manager = new CartDatabase();
+        $this->manager = new CartHttpSession();
     }
 
     public function create() {
         return $this->manager->create();
     }
 
-    public function addItem($productId, $productNodeId, $price) {
+    public function addItem($productId, $productNodeId, $price, $currency) {
         $price = $this->format_price($price);
         if (!$price)
             return false;
-        $this->manager->addItem($productId, $productNodeId, $price);
+        $this->manager->addItem($productId, $productNodeId, $price, $currency);
     }
 
     public function removeItem($productId, $productNodeId) {
@@ -75,6 +72,30 @@ class CartManager {
 
     public function getCoupon() {
         return ($this->manager->getCoupon()) ? $this->manager->getCoupon() : false;
+    }
+    
+    public function setAnonymousDelivery($value) {
+        $this->manager->setAnonymousDelivery($value);
+    }
+    
+    public function setFreeDeliveryPhoto($value) {
+        $this->manager->setFreeDeliveryPhoto($value);
+    }
+    
+    public function getAnonymousDelivery() {
+        return $this->manager->getAnonymousDelivery();
+    }
+    
+    public function getFreeDeliveryPhoto() {
+        return $this->manager->getFreeDeliveryPhoto();
+    }
+    
+    public function setItemAsGift($productId, $productNodeId, $gift = true) {
+        $this->manager->setItemAsGift($productId, $productNodeId, $gift);
+    }
+    
+    public function setItemAsPostcard($productId, $productNodeId, $postcard = true) {
+        $this->manager->setItemAsPostcard($productId, $productNodeId, $postcard);
     }
 
     public function format_price($price) {

@@ -3,14 +3,26 @@
 class ProductController extends Controller {
 
     public function actionIndex($id) {
+        if (Yii::app()->request->isAjaxRequest AND $_POST) {
+            $cart = $this->cart->getList();
+            if (!$cart)
+                $cart = $this->cart->create();
+            if ($_POST['action'] == 'addItem') {
+                $this->cart->addItem($_POST['productId'], $_POST['productNodeId'], $_POST['price'], $this->currency);
+            }
+            echo Yii::t('app', 'Prece ir pievienota pirkuma grozam!');
+            Yii::app()->end();
+        }
         $id = explode('/', $id);
         $productId = end($id);
         array_pop($id);
         $categoryId = '/';
         $category = null;
+        $showGift = false;
         if (count($id) > 0) {
             $categoryId = implode('/', $id);
             $category = Category::model()->getCategory($categoryId);
+            $showGift = ($category->getparent->gift != 1 AND $category->getparent->postcard != 1);
             if (!$category) {
                 if (Yii::app()->request->isAjaxRequest)
                     throw new CHttpException(404, 'The requested page does not exist.');
@@ -46,6 +58,16 @@ class ProductController extends Controller {
                 echo 'false';
         }
         
+        if ( ! $category) {
+            foreach ($productModel->categories AS $productCategory) {
+                if (!$showGift AND $productCategory->getparent) {
+                    $showGift = ($productCategory->getparent->gift != 1 AND $productCategory->getparent->postcard != 1);
+                } else if (!$showGift AND ($productCategory->gift != 1 AND $productCategory->postcard != 1)) {
+                    $showGift = true;
+                }
+            }
+        }
+        
         if (Yii::app()->request->isAjaxRequest) {
             if ($nodeId > 0) {
                 echo number_format($product->mainNode->price / $this->currencyValue,2,'.','');
@@ -78,6 +100,7 @@ class ProductController extends Controller {
             'categoryLink' => $categoryId,
             'product' => $product,
             'gifts' => $gifts,
+            'showGift' => $showGift
         ));
     }
 

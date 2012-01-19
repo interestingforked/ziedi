@@ -92,5 +92,11 @@ class OrderDetail extends CActiveRecord {
             'type' => 'shipping'
         ));
     }
+    
+    public function getDetails($orderId) {
+        return $this->findByAttributes(array(
+            'order_id' => $orderId,
+        ));
+    }
 
 }

@@ -1,7 +1,7 @@
 <?php $this->pageTitle = Html::formatTitle($product->content->title, $product->content->meta_title) . ' - ' . $this->pageTitle; ?>
 <script type="text/javascript">
 $(document).ready(function () {
-    $('input[name=productNodeId]:first').click().attr('checked', true);
+    $('#orderForm input[name=productNodeId]:first').click().attr('checked', true);
 });
 </script>
 <div class="border">
@@ -31,7 +31,15 @@ $(document).ready(function () {
             </td>
             <td class="right">
                 <?php 
-                echo CHtml::beginForm(array('/cart'));
+                echo CHtml::beginForm('', 'post', array('id' => 'tmpForm'));
+                echo CHtml::hiddenField('action', '');
+                echo CHtml::hiddenField('productId', '');
+                echo CHtml::hiddenField('productNodeId', '');
+                echo CHtml::hiddenField('productType', '');
+                echo CHtml::hiddenField('price', '');
+                echo CHtml::endForm();
+                
+                echo CHtml::beginForm(array('/cart'), 'post', array('id' => 'orderForm'));
                 echo CHtml::hiddenField('action', 'addItem');
                 echo CHtml::hiddenField('productId', $product->id);
                 echo CHtml::hiddenField('price', $product->mainNode->price);
@@ -56,6 +64,7 @@ $(document).ready(function () {
                 <?php echo CHtml::endForm(); ?>
             </td>
         </tr>
+        <?php if ($showGift): ?>
         <tr>
             <td colspan="2">
                 <div class="hr"></div>
@@ -73,9 +82,10 @@ $(document).ready(function () {
                         ));
                         ?>
                     </div>
-                    <div class="list"></div>
+                    <div class="list gift-list"></div>
                 </div>
             </td>
         </tr>
+        <?php endif; ?>
     </table>
 </div>

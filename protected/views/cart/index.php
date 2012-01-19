@@ -1,4 +1,16 @@
 <?php $this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', 'Cart'); ?>
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#orderForm input[name=productNodeId]:first').click().attr('checked', true);
+    $('.orderButton').click(function () {
+        if (parseFloat($('#totalPrice').val()) < 15) {
+            alert('<?php echo Yii::t('app', 'Jūsu pasūtījuma summa nedrīkst būt mazaka par 15 Ls!'); ?>');
+            return false;
+        }
+        location.href='<?php echo CHtml::normalizeUrl('/checkout'); ?>';
+    });
+});
+</script>
 <div class="border">
     <div style="background-color:#cdea99; padding:10px;">
         <div class="steps">
@@ -10,8 +22,23 @@
             <?php if (!$items): ?>
             <div class="options"><?php echo Yii::t('app', 'Cart is empty'); ?></div>
             <?php else: ?>
+            <?php 
+            echo CHtml::beginForm('', 'post', array('id' => 'tmpForm'));
+            echo CHtml::hiddenField('action', '');
+            echo CHtml::hiddenField('productId', '');
+            echo CHtml::hiddenField('productNodeId', '');
+            echo CHtml::hiddenField('productType', '');
+            echo CHtml::hiddenField('price', '');
+            echo CHtml::endForm();
+            
+            echo CHtml::beginForm();
+            echo CHtml::hiddenField('action', 'updateCart');
+            ?>
             <table class="sh-cart">
-                <?php foreach ($items AS $item): ?>
+                <?php 
+                foreach ($items AS $item): 
+                    $itemId = $item['item']['product_id'].'-'.$item['item']['product_node_id'];
+                ?>
                 <tr>
                     <td width="110">
                         <?php
@@ -20,41 +47,33 @@
                         ?>
                     </td>
                     <td class="name">
-                        <span class="title"><?php echo $item['product']->content->title; ?></span>
-                        <span><?php echo Yii::t('app', 'Price'); ?>: <?php echo number_format($item['product']->mainNode->price,2,'.','').Yii::app()->params['currencies'][$this->currency]; ?></span></td>
+                        <input type="hidden" name="products[<?php echo $itemId; ?>][productId]" value="<?php echo $item['item']['product_id']; ?>">
+                        <input type="hidden" name="products[<?php echo $itemId; ?>][productNodeId]" value="<?php echo $item['item']['product_node_id']; ?>">
+                        <span class="title">
+                            <?php echo CHtml::link($item['product']->content->title, array('/product/'.$item['product']->slug.'-'.$item['product']->id)); ?>
+                        </span>
+                        <span><?php echo Yii::t('app', 'Price'); ?>: <?php echo number_format($item['product']->mainNode->price / $this->currencyValue,2,'.','').Yii::app()->params['currencies'][$this->currency]; ?></span></td>
                     <td width="60">
-                        <input class="dig" type="text" name="quantity" value="<?php echo $item['item']['quantity']; ?>" />
+                        <input class="dig" type="text" name="products[<?php echo $itemId; ?>][quantity]" value="<?php echo $item['item']['quantity']; ?>" />
                     </td>
-                    <?php 
-                    $subtotal = $item['product']->mainNode->price * $item['item']['quantity'];
-                    ?>
-                    <td><?php echo number_format($subtotal,2,'.','').Yii::app()->params['currencies'][$this->currency]; ?></td>
-                    <td  align="right">
-                        <?php 
-                        echo CHtml::beginForm(array('/cart'));
-                        echo CHtml::hiddenField('action', 'removeItem');
-                        echo CHtml::hiddenField('productId', $item['item']['product_id']);
-                        echo CHtml::hiddenField('productNodeId', $item['item']['product_node_id']);
-                        echo CHtml::submitButton(Yii::t('app', 'Dzēst'), array(
-                            'style' => 'border: none; cursor: pointer; background: none; color: #254E2D; font-size:100%',
-                            'onmouseout' => "this.style.color='#254E2D'",
-                            'onmouseover' => "this.style.color='#A61925'",
-                        ));
-                        echo CHtml::endForm(); 
-                        ?>
+                    <td><?php echo number_format($item['item']['subtotal'] / $this->currencyValue,2,'.','').Yii::app()->params['currencies'][$this->currency]; ?></td>
+                    <td align="right">
+                        <a href="#" class="deleteCartItem" rel="<?php echo $item['item']['product_id'].'__'.$item['item']['product_node_id']; ?>"><?php echo Yii::t('app', 'Dzēst'); ?></a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
             </table>
-            <div class="options"><input type="checkbox" />&nbsp; Piegādāt anonīmi</div>
-            <div class="options"><input type="checkbox" />&nbsp; Bezmaksas piegādes foto</div>
+            <div class="options"><?php echo CHtml::checkBox('anonymous_delivery', $options['anonymous_delivery']); ?>&nbsp; <?php echo Yii::t('app', 'Piegādāt anonīmi'); ?></div>
+            <div class="options"><?php echo CHtml::checkBox('free_delivery_photo', $options['free_delivery_photo']); ?>&nbsp; <?php echo Yii::t('app', 'Bezmaksas piegādes foto'); ?></div>
             <?php endif; ?>
         </div>
         <div style="text-align:right; margin-top:10px; padding-right:10px;">
-            <div><b style="font-weight:bold;font-size:85%;">Kopsumma bez piegādes: 88.00 Ls</b></div>
-            <div style="padding-top:8px;"><input type="submit" title="pārrēķināt" value="Pārrēķināt" name="" style="width: 90px; height: 28px; border: 1px solid #307714; cursor: pointer; text-align: center; padding: 4px 4px 7px 4px; background-color: #ece9be; color: #000000;">
-                &nbsp;<input type="submit" title="Pasūtīt" value="Pāsūtīt" name="" style="width: 90px; height: 28px; border: 1px solid #307714;font-weight:bold; cursor: pointer; text-align: center; padding: 4px 4px 7px 4px; background-color: #ece9be; color: #000000;"></div>
+            <?php echo CHtml::hiddenField('totalPrice', number_format($total['price'] / $this->currencyValue,2,'.','')); ?>
+            <div><b style="font-weight:bold;font-size:85%;"><?php echo Yii::t('app', 'Kopsumma bez piegādes'); ?>: <?php echo number_format($total['price'] / $this->currencyValue,2,'.','').Yii::app()->params['currencies'][$this->currency]; ?></b></div>
+            <div style="padding-top:8px;"><input type="submit" title="Pārrēķināt" value="Pārrēķināt" name="" style="width: 90px; height: 28px; border: 1px solid #307714; cursor: pointer; text-align: center; padding: 4px 4px 7px 4px; background-color: #ece9be; color: #000000;">
+                &nbsp;<input type="button" class="orderButton" title="Pasūtīt" value="Pāsūtīt" name="" style="width: 90px; height: 28px; border: 1px solid #307714;font-weight:bold; cursor: pointer; text-align: center; padding: 4px 4px 7px 4px; background-color: #ece9be; color: #000000;"></div>
         </div>
+        <?php echo CHtml::endForm(); ?>
     </div><br>
     <table class="gifts">
         <tr>
@@ -75,39 +94,7 @@
                     </div>
                     <div class="list" id="postcardList"></div>
                 </div>
-
-                <div class="gift-wrap">
-                    <div>Не знаете, что написать?</div>
-                    <div class="selection">
-                        <ul class="gift-select">
-                            <li class="current">Любимой</li>
-                            <li><a href="">Другу</a></li>
-                            <li><a href="">Подруге</a></li>
-                            <li><a href="">Маме</a></li>
-                        </ul>
-                    </div>
-                    <div class="add-card">
-                        <table class="card-text">
-                            <tr>
-                                <td>Поздравление в стихах:</td>
-                                <td>Ваш текст в открытке:</td>
-                            </tr>
-                            <tr>
-                                <td><textarea rows="5" cols="30" name=""></textarea></td>
-                                <td><textarea rows="5" cols="30" name=""></textarea></td>
-                            </tr>
-                            <tr>
-                                <td><ul class="poetry"><li>1</li><li><a href="">2</a></li><li><a href="">3</a></li><li><a href="">4</a></li></ul></td>
-                                <td>Подпись в открытке:</td>
-                            </tr>
-                            <tr>
-                                <td><input type="submit" title="Разместить в открытке" value="Разместить в открытке" name="" style="border: 1px solid #307714;font-weight:bold; cursor: pointer; text-align: center;font-size:95%; padding: 2px 4px 2px 4px; background-color:#ааа; color: #000000;"></td>
-                                <td><input type="text" style="width:250px;"></input></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-
+                <div class="hr" style="margin:15px 0;"></div>
                 <div class="gift-wrap">
                     <div><?php echo Yii::t('app', 'Приложить <strong>подарок</strong>'); ?></div>
                     <div class="selection">

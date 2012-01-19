@@ -14,9 +14,9 @@ foreach ($products as $product):
     $link = CHtml::normalizeUrl(array('/'.$category->slug.'/'.$product->slug.'-'.$product->id));
     $attachetImage = Attachment::model()->getAttachment('product', $product->id);
     if ($attachetImage) {
-        $image = CHtml::image(Image::thumb(Yii::app()->params['images'].$attachetImage->image, $this->settings['CATEGORY_PRODUCT_IMAGE_SIZE']), $product->content->title);
+        $image = CHtml::image(Image::thumb(Yii::app()->params['images'].$attachetImage->image, $this->settings['CATEGORY_PRODUCT_IMAGE_SIZE'], $this->settings['CATEGORY_PRODUCT_IMAGE_SIZE']), $product->content->title);
     } else {
-        $image = CHtml::image(Image::thumb('/images/fl1.jpg', $this->settings['CATEGORY_PRODUCT_IMAGE_SIZE']), $product->content->title);
+        $image = CHtml::image(Image::thumb('/images/fl1.jpg', $this->settings['CATEGORY_PRODUCT_IMAGE_SIZE'], $this->settings['CATEGORY_PRODUCT_IMAGE_SIZE']), $product->content->title);
     }
 ?>
         <td class="border">

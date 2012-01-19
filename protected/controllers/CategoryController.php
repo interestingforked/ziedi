@@ -8,14 +8,23 @@ class CategoryController extends Controller {
             if ($category) {
                 if ($category->products) {
                     $content = '';
+                    $productType = 'simple';
+                    if ($category->getparent->gift == 1) {
+                        $productType = 'gift';
+                    }
+                    if ($category->getparent->postcard == 1) {
+                        $productType = 'postcard';
+                    }
                     foreach ($category->products AS $categoryProduct) {
                         $product = $categoryProduct->getProduct();
                         $image = Attachment::model()->getAttachment('product', $product->id);
                         $thumb = CHtml::link(CHtml::image(Image::thumb(Yii::app()->params['images'] . $image->image, 80), $product->content->title), 
                                 CHtml::normalizeUrl(array('/'.$category->slug.'/'.$product->slug.'-'.$product->id)), array('class' => 'gift-image'));
+                        $price = number_format($product->mainNode->price / $this->currencyValue,2,'.','');
+                        $itemInfo = $productType.'_'.$product->id.'_'.$product->mainNode->id.'_'.$price;
                         $content .= '<div class="one"><div class="img">'.$thumb.'</div>'
-                            .'<span>'.number_format($product->mainNode->price / $this->currencyValue,2,'.','').'</span>'
-                            .'<span><a href="#" class="gift-item-order">Pasūtīt</a></span></div>';
+                            .'<span>'.$price.'</span>'
+                            .'<span><a href="#" class="orderItem" rel="'.$itemInfo.'">'.Yii::t('app', 'Pasūtīt').'</a></span></div>';
                     }
                     echo $content;
                 } else {

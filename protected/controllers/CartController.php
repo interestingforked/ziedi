@@ -14,14 +14,14 @@ class CartController extends Controller {
                 $this->cart->changeNode($_POST['productId'], $_POST['productNodeId'], $_POST['newProductNodeId'], $node->mainNode->price);
             }
             if ($_POST['action'] == 'addItem') {
-                $this->cart->addItem($_POST['productId'], $_POST['productNodeId'], $_POST['price']);
+                $this->cart->addItem($_POST['productId'], $_POST['productNodeId'], $_POST['price'], $this->currency);
                 $referer = (isset($_SERVER["HTTP_REFERER"])) ? preg_replace("/(\/[a-zA-Z0-9\-]+\-[0-9]+)/", "", $_SERVER["HTTP_REFERER"]) : '/';
             }
             if ($_POST['action'] == 'removeItem') {
                 $this->cart->removeItem($_POST['productId'], $_POST['productNodeId']);
             }
             if ($_POST['action'] == 'changeQuantity') {
-                if ($_POST['quantity'] == 0)
+                if ($_POST['quantity'] <= 0)
                     $this->cart->removeItem($_POST['productId'], $_POST['productNodeId']);
                 else
                     $this->cart->changeQuantity($_POST['productId'], $_POST['productNodeId'], $_POST['quantity']);
@@ -35,6 +35,17 @@ class CartController extends Controller {
                         $this->cart->changeQuantity($wishlistItem['product_id'], $wishlistItem['product_node_id'], $wishlistItem['quantity']);
                     }
                 }
+            }
+            
+            if ($_POST['action'] == 'updateCart') {
+                foreach ($_POST['products'] AS $itemKey => $itemValue) {
+                    if ($itemValue['quantity'] == 0)
+                        $this->cart->removeItem($itemValue['productId'], $itemValue['productNodeId']);
+                    else
+                        $this->cart->changeQuantity($itemValue['productId'], $itemValue['productNodeId'], $itemValue['quantity']);
+                }
+                $this->cart->setAnonymousDelivery(isset($_POST['anonymous_delivery']));
+                $this->cart->setFreeDeliveryPhoto(isset($_POST['free_delivery_photo']));
             }
         }
 
@@ -83,6 +94,15 @@ class CartController extends Controller {
         $postcardRoot = Category::model()->getPostcardParent();
         $postcards = $postcardRoot->getListed('postcard');
 
+        $total = array(
+            'count' => $this->cart->getTotalCount(),
+            'price' => $this->cart->getTotalPrice(),
+        );
+        $options = array(
+            'anonymous_delivery' => $this->cart->getAnonymousDelivery(),
+            'free_delivery_photo' => $this->cart->getFreeDeliveryPhoto(),
+        );
+        
         $this->breadcrumbs[] = Yii::t('app', 'Cart');
         $this->render('index', array(
             'list' => $cart,
@@ -94,7 +114,9 @@ class CartController extends Controller {
             'discountType' => $discountType,
             'referer' => $referer,
             'gifts' => $gifts,
-            'postcards' => $postcards
+            'postcards' => $postcards,
+            'total' => $total,
+            'options' => $options
         ));
     }
 

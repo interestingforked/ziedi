@@ -66,7 +66,7 @@ $noRightColumn = in_array($this->getId(), array(
                 <table class="body-table">
                     <tr>
                         <td class="page-left">
-                            <div>
+                            <div class="left-navigation">
                                 <?php
                                 $this->widget('zii.widgets.CMenu', array(
                                     'items' => $this->categories['items'],

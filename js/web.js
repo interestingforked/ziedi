@@ -2,6 +2,16 @@ $(document).ready(function () {
     
     $('.navigation .submenu').hide();
     $('.navigation .current .submenu').show();
+    
+    var currentMainNavElement = $('.navigation .current');
+    if ($(currentMainNavElement).find('.current').length > 0) {
+        var elementHtml = $('.current', currentMainNavElement).html();
+        $('.current', currentMainNavElement).html('<b>' + elementHtml + '</b>');
+    } else {
+        var elementHtml = $('.navigation .current').html();
+        $('.navigation .current').html('<b>' + elementHtml + '</b>');
+    }
+    
     $('.navigation a').click(function () {
         var url = $(this).attr('href');
         if (url == '#') {
@@ -29,9 +39,7 @@ $(document).ready(function () {
         });
     });
     
-    $('.gift-select a:first').click();
-    
-    $('.postcardList a').click(function () {
+    $('.postcardList a').live('click', function () {
         var url = $(this).attr('href');
         if (url == '#') return false;
         $.get(url, function (data) {
@@ -40,7 +48,7 @@ $(document).ready(function () {
         return false;
     });
     
-    $('.giftList a').click(function () {
+    $('.giftList a').live('click', function () {
         var url = $(this).attr('href');
         if (url == '#') return false;
         $.get(url, function (data) {
@@ -48,6 +56,19 @@ $(document).ready(function () {
         });
         return false;
     });
+    
+    $('.gift-select a').live('click', function () {
+        var url = $(this).attr('href');
+        if (url == '#') return false;
+        $.get(url, function (data) {
+            $('.gift-list').html(data);
+        });
+        return false;
+    });
+    
+    $('.postcardList a:first').click();
+    $('.giftList a:first').click();
+    $('.gift-select a:first').click();
     
     $('.list .img a').live('click', function () {
         $.fancybox({
@@ -80,4 +101,38 @@ $(document).ready(function () {
         'cyclic':true
     });
     
+    $('.deleteCartItem').click(function () {
+        var productInfo = $(this).attr('rel').split('__');
+        $('#tmpForm #action').val('removeItem');
+        $('#tmpForm #productId').val(productInfo[0]);
+        $('#tmpForm #productNodeId').val(productInfo[1]);
+        $('#tmpForm').submit();
+    });
+    
+    $('.orderItem').live('click', function () {
+        var productInfo = $(this).attr('rel').split('_');
+        $('#tmpForm #action').val('addItem');
+        $('#tmpForm #productType').val(productInfo[0]);
+        $('#tmpForm #productId').val(productInfo[1]);
+        $('#tmpForm #productNodeId').val(productInfo[2]);
+        $('#tmpForm #price').val(productInfo[3]);
+        
+        var pattern = /cart/i;
+        if (pattern.test(document.URL)) {
+            $('#tmpForm').submit();
+        } else {
+            var serializedForm = $('#tmpForm').serialize();
+            $.ajax({
+                type: 'POST',
+                url: document.URL,
+                data: serializedForm,
+                success: function (responseData) {
+                    alert(responseData);
+                },
+                dataType: 'html'
+            });
+        }
+        return false;
+    });
+
 });

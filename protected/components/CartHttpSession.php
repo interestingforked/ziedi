@@ -19,20 +19,39 @@ class CartHttpSession {
             'total_count' => 0,
             'total_price' => 0.00,
             'coupon_id' => 0,
+            'anonymous_delivery' => false,
+            'free_delivery_photo' => false,
         );
         $this->driver->add('cart', $this->cart);
         return $this->cart;
     }
 
-    public function addItem($productId, $productNodeId, $price) {
+    public function addItem($productId, $productNodeId, $price, $currency) {
         $id = $productId . '-' . $productNodeId;
         $this->items[$id] = array(
             'product_id' => $productId,
             'product_node_id' => $productNodeId,
             'quantity' => 1,
             'price' => $price,
-            'subtotal' => $price
+            'subtotal' => $price,
+            'currency' => $currency,
+            'gift' => false,
+            'postcard' => false,
         );
+        $this->driver->add('cart_items', $this->items);
+        $this->count_total();
+    }
+    
+    public function setItemAsGift($productId, $productNodeId, $gift = true) {
+        $id = $productId . '-' . $productNodeId;
+        $this->items[$id]['gift'] = $gift;
+        $this->driver->add('cart_items', $this->items);
+        $this->count_total();
+    }
+    
+    public function setItemAsPostcard($productId, $productNodeId, $postcard = true) {
+        $id = $productId . '-' . $productNodeId;
+        $this->items[$id]['postcard'] = $postcard;
         $this->driver->add('cart_items', $this->items);
         $this->count_total();
     }
@@ -67,6 +86,24 @@ class CartHttpSession {
     public function setCoupon($couponId) {
         $this->cart['coupon_id'] = $couponId;
         $this->driver->add('cart', $this->cart);
+    }
+    
+    public function setAnonymousDelivery($value) {
+        $this->cart['anonymous_delivery'] = $value;
+        $this->count_total();
+    }
+    
+    public function setFreeDeliveryPhoto($value) {
+        $this->cart['free_delivery_photo'] = $value;
+        $this->count_total();
+    }
+    
+    public function getAnonymousDelivery() {
+        return $this->cart['anonymous_delivery'];
+    }
+    
+    public function getFreeDeliveryPhoto() {
+        return $this->cart['free_delivery_photo'];
     }
 
     public function getCoupon() {
