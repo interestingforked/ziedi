@@ -1,5 +1,5 @@
-<h1><?php echo $category->content->title; ?></h1>
-<div class="hr"></div>
+<!--<h1><?php echo $category->content->title; ?></h1>
+<div class="hr"></div>-->
 <?php if (!$products): ?>
     <p><?php echo Yii::t('app', 'Products not found'); ?></p>
 <?php else: ?>
@@ -17,14 +17,16 @@ foreach ($products as $product):
         $image = CHtml::image(Image::thumb('/images/fl1.jpg', $this->settings['CATEGORY_PRODUCT_IMAGE_SIZE']), $product->content->title);
     }
 ?>
-        <td class="border">
+        <td class="cell">
+<div class="cell-border">
             <div><?php echo $image; ?></div>
             <div class="fl-title"><?php echo CHtml::link($product->content->title, $link, array('title' => $product->content->title)); ?></div>
             <div class="price"><?php echo number_format($product->mainNode->price / $this->currencyValue,2,'.','').Yii::app()->params['currencies'][$this->currency]; ?></div>
+</div>
         </td>
-<?php if ($j == 0): ?>
+<!--<?php if ($j == 0): ?>
         <td style="width:15px;">&nbsp;</td>
-<?php endif; ?>        
+<?php endif; ?> -->
 <?php if ($c % 2 == 0): ?>
     </tr>
     <tr><td colspan="3" style="height:15px;"></td></tr>

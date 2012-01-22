@@ -30,9 +30,8 @@ class Order extends CActiveRecord {
 
     public function rules() {
         return array(
-            array('cart_id, user_id', 'required'),
+            array('session_id', 'required'),
             array('status, shipping_method, payment_method, quantity', 'numerical', 'integerOnly' => true),
-            array('cart_id, user_id', 'length', 'max' => 11),
             array('total, ip', 'length', 'max' => 15),
             array('comment, created', 'safe'),
             array('id, cart_id, user_id, status, shipping_method, payment_method, quantity, total, shipping, discount, comment, ip, created', 'safe', 'on' => 'search'),

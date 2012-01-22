@@ -13,7 +13,7 @@ $(document).ready(function () {
                 $attachetImages = Attachment::model()->getAttachments('product', $product->id);
                 foreach ($attachetImages AS $image) {
                     echo CHtml::image(Image::thumb(Yii::app()->params['images'] . $image->image, 
-                            $this->settings['PRODUCT_INFO_IMAGE_SIZE'], $this->settings['PRODUCT_INFO_IMAGE_SIZE']), 
+                            $this->settings['PRODUCT_INFO_IMAGE_WIDTH'], $this->settings['PRODUCT_INFO_IMAGE_HEIGHT']), 
                             $product->content->title, array('id' => 'product-image-big-'.$image->id));
                 }
                 ?>
@@ -23,7 +23,7 @@ $(document).ready(function () {
                     foreach ($attachetImages AS $image) {
                         $imageLink = Yii::app()->params['images'] . $image->image;
                         echo CHtml::link(CHtml::image(Image::thumb($imageLink, 
-                                $this->settings['PRODUCT_INFO_IMAGE_THUMB_SIZE'], $this->settings['PRODUCT_INFO_IMAGE_THUMB_SIZE']), 
+                                $this->settings['PRODUCT_INFO_THUMB_WIDTH'], $this->settings['PRODUCT_INFO_THUMB_HEIGHT']), 
                                 $product->content->title, array('id' => 'product-image-thumb-'.$image->id)), $imageLink, array('rel' => 'image-group'));
                     }
                     ?>

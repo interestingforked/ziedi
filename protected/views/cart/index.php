@@ -7,7 +7,7 @@ $(document).ready(function () {
             alert('<?php echo Yii::t('app', 'Jūsu pasūtījuma summa nedrīkst būt mazaka par 15 Ls!'); ?>');
             return false;
         }
-        location.href='<?php echo CHtml::normalizeUrl('/checkout'); ?>';
+        location.href='/<?php echo Yii::app()->language.CHtml::normalizeUrl('/checkout'); ?>';
     });
 });
 </script>

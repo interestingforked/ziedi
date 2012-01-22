@@ -11,6 +11,10 @@ class CartManager {
     public function create() {
         return $this->manager->create();
     }
+    
+    public function getCart() {
+        return $this->manager->getCart();
+    }
 
     public function addItem($productId, $productNodeId, $price, $currency) {
         $price = $this->format_price($price);

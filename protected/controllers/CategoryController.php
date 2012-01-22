@@ -18,7 +18,7 @@ class CategoryController extends Controller {
                     foreach ($category->products AS $categoryProduct) {
                         $product = $categoryProduct->getProduct();
                         $image = Attachment::model()->getAttachment('product', $product->id);
-                        $thumb = CHtml::link(CHtml::image(Image::thumb(Yii::app()->params['images'] . $image->image, 80), $product->content->title), 
+                        $thumb = CHtml::link(CHtml::image(Image::thumb(Yii::app()->params['images'] . $image->image, $this->settings['PRODUCT_GIFT_IMAGE_WIDTH'], $this->settings['PRODUCT_GIFT_IMAGE_HEIGHT']), $product->content->title), 
                                 CHtml::normalizeUrl(array('/'.$category->slug.'/'.$product->slug.'-'.$product->id)), array('class' => 'gift-image'));
                         $price = number_format($product->mainNode->price / $this->currencyValue,2,'.','');
                         $itemInfo = $productType.'_'.$product->id.'_'.$product->mainNode->id.'_'.$price;

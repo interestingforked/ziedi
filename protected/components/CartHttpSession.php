@@ -25,6 +25,10 @@ class CartHttpSession {
         $this->driver->add('cart', $this->cart);
         return $this->cart;
     }
+    
+    public function getCart() {
+        return $this->cart;
+    }
 
     public function addItem($productId, $productNodeId, $price, $currency) {
         $id = $productId . '-' . $productNodeId;
@@ -148,7 +152,8 @@ class CartHttpSession {
     }
 
     public function close() {
-        
+        $this->driver->remove('cart');
+        $this->driver->remove('cart_items');
     }
 
 }

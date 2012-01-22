@@ -9,7 +9,10 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link href="/css/style.css" type="text/css" rel="stylesheet" />
-    <link href="/css/jquery.fancybox-1.3.4.css" type="text/css" rel="stylesheet" /> 
+    <link href="/css/jquery.fancybox-1.3.4.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript">
+        var SITE_LANGUAGE = '<?php echo Yii::app()->language; ?>';
+    </script>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/jquery.easing-1.3.pack.js"></script>
     <script type="text/javascript" src="/js/jquery.mousewheel-3.0.4.pack.js"></script> 
