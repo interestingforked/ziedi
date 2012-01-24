@@ -10,7 +10,7 @@ class Image {
         if ($height)
             $thumbUrl .= '&h=' . $height;
         if ($zs)
-            $thumbUrl .= '&zc=0';
+            $thumbUrl .= '&zc=1';
         return $thumbUrl;
     }
 

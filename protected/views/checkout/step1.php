@@ -3,7 +3,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $('#goBack').click(function () {
-        location.href='<?php echo CHtml::normalizeUrl('/checkout'); ?>';
+        location.href='/<?php echo Yii::app()->language.CHtml::normalizeUrl('/checkout'); ?>';
     });
     $('#step1-form').submit(function () {
         var accept = true;

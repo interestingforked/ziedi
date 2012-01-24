@@ -40,7 +40,7 @@ class Order extends CActiveRecord {
 
     public function relations() {
         return array(
-            'orderDetails' => array(self::HAS_MANY, 'OrderDetail', 'order_id'),
+            'orderDetail' => array(self::HAS_ONE, 'OrderDetail', 'order_id'),
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
             'cart' => array(self::BELONGS_TO, 'Cart', 'cart_id'),
             'items' => array(self::HAS_MANY, 'OrderItem', 'order_id'),

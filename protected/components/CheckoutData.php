@@ -88,6 +88,9 @@ class CheckoutData {
         $array = array();
         $c = 0;
         $int = 0;
+        if ($interval > 1) {
+            $array[$start] = ($pad != 0) ? str_pad($start, $pad, $padSymbol, STR_PAD_LEFT) : $start;
+        }
         for ($i = ($start); $i <= $end; $i++) {
             $int++;
             if ($int == $interval) {

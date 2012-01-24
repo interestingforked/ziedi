@@ -27,9 +27,21 @@ for ($i = 0; $i < $rows; $i++) {
         ?>
         <td class="cell">
 	   <div class="cell-border">
-           <div><?php echo $image; ?></div>
+            <div class="cat-img"><?php echo CHtml::link($image, $link); ?></div>
             <div class="fl-title"><?php echo CHtml::link($product->content->title, $link, array('title' => $product->content->title)); ?></div>
-            <div class="price"><?php echo number_format($product->mainNode->price / $this->currencyValue,2,'.','').Yii::app()->params['currencies'][$this->currency]; ?></div>
+            <div class="price">
+                <div class="left"><?php echo number_format($product->mainNode->price / $this->currencyValue,2,'.','').Yii::app()->params['currencies'][$this->currency]; ?></div>
+                <?php 
+                $formId = 'order_form_'.$product->id.'_'.$product->mainNode->id;
+                echo CHtml::beginForm(array('/cart'), 'post', array('id' => $formId));
+                echo CHtml::hiddenField('action', 'addItem');
+                echo CHtml::hiddenField('productId', $product->id);
+                echo CHtml::hiddenField('productNodeId', $product->mainNode->id);
+                echo CHtml::hiddenField('price', $product->mainNode->price);
+                ?>
+                <div class="right"><a href="#" class="addToCartButton" rel="<?php echo $formId; ?>"><?php echo Yii::t('app', 'В корзину'); ?></a></div>
+                <?php echo CHtml::endForm(); ?>
+            </div>
 	  </div>
         </td>
         <?php

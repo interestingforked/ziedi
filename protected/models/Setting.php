@@ -32,6 +32,12 @@ class Setting extends CActiveRecord {
             'created' => 'Created',
         );
     }
+	
+	public function defaultScope() {
+		return array(
+			'order' => 'sort asc',
+		);
+	}
 
     public function getValue($key, $default = null) {
         $setting = $this->findByKey($key);

@@ -24,6 +24,22 @@ class CheckoutController extends Controller {
             $orderDetail = new OrderDetail();
             $orderDetail->isNewRecord = true;
             $orderDetail->id = null;
+            
+            $orderDetail->shipping_date_day = date('d');
+            $orderDetail->shipping_date_month = date('n');
+            $orderDetail->shipping_date_year = date('Y');
+            
+            $nowHour = (int)date('G');
+            if ($nowHour > 0 AND $nowHour < 8) {
+                $orderDetail->shipping_time = 1;
+            } else if ($nowHour > 0 AND $nowHour < 8) {
+                $orderDetail->shipping_time = 2;
+            } else if ($nowHour > 14 AND $nowHour < 18) {
+                $orderDetail->shipping_time = 3;
+            } else {
+                $orderDetail->shipping_time = 4;
+            }
+
         }
 
         if ($_POST) {
@@ -55,6 +71,16 @@ class CheckoutController extends Controller {
             $orderDetail->full_address = $request->getParam('full_address');
             $orderDetail->clarify_everything = $request->getParam('clarify_everything', 0);
             $orderDetail->clarify_address_fr = $request->getParam('clarify_address_fr', 0);
+            
+            $additionalSum = 0;
+            if ($orderDetail->clarify_everything) {
+                $additionalSum += 3;
+            }
+            if ($orderDetail->shipping_time == 5) {
+                $additionalSum += 7;
+            }
+            $order->additional = $additionalSum;
+            $order->save();
             
             if ($orderDetail->save()) {
                 Yii::app()->controller->redirect(array('/checkout/step1'));

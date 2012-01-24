@@ -9,7 +9,7 @@ class DeletedController extends AdminController {
 
         // Products
         $sql = "SELECT DISTINCT p.id as p_id, p.slug as p_slug, p.created as p_created, cp.title as p_title "
-                . "FROM products p LEFT JOIN contents cp ON cp.module = 'product' AND cp.module_id = p.id AND cp.language = 'ru' "
+                . "FROM products p LEFT JOIN contents cp ON cp.module = 'product' AND cp.module_id = p.id AND cp.language = 'lv' "
                 . "WHERE p.deleted = 1 ORDER BY p.created";
         $command = $connection->createCommand($sql);
         $dataReader = $command->query();
@@ -18,7 +18,7 @@ class DeletedController extends AdminController {
         // Product Nodes
         $sql = "SELECT DISTINCT pn.id as p_id, p.slug as p_slug, pn.created as p_created, cp.title as p_title "
                 . "FROM product_nodes pn LEFT JOIN products p ON p.id = pn.product_id "
-                . "LEFT JOIN contents cp ON cp.module = 'product' AND cp.module_id = p.id AND cp.language = 'ru' "
+                . "LEFT JOIN contents cp ON cp.module = 'product' AND cp.module_id = p.id AND cp.language = 'lv' "
                 . "WHERE p.deleted = 1 ORDER BY p.created";
         $command = $connection->createCommand($sql);
         $dataReader = $command->query();
@@ -26,7 +26,7 @@ class DeletedController extends AdminController {
 
         // Products
         $sql = "SELECT DISTINCT p.id as p_id, p.slug as p_slug, p.created as p_created, cp.title as p_title "
-                . "FROM pages p LEFT JOIN contents cp ON cp.module = 'page' AND cp.module_id = p.id AND cp.language = 'ru' "
+                . "FROM pages p LEFT JOIN contents cp ON cp.module = 'page' AND cp.module_id = p.id AND cp.language = 'lv' "
                 . "WHERE p.deleted = 1 ORDER BY p.created";
         $command = $connection->createCommand($sql);
         $dataReader = $command->query();
@@ -34,7 +34,7 @@ class DeletedController extends AdminController {
 
         // Articles
         $sql = "SELECT DISTINCT p.id as p_id, p.slug as p_slug, p.created as p_created, cp.title as p_title "
-                . "FROM articles p LEFT JOIN contents cp ON cp.module = 'article' AND cp.module_id = p.id AND cp.language = 'ru' "
+                . "FROM articles p LEFT JOIN contents cp ON cp.module = 'article' AND cp.module_id = p.id AND cp.language = 'lv' "
                 . "WHERE p.deleted = 1 ORDER BY p.created";
         $command = $connection->createCommand($sql);
         $dataReader = $command->query();
@@ -42,11 +42,19 @@ class DeletedController extends AdminController {
 
         // Gallery
         $sql = "SELECT DISTINCT p.id as p_id, p.slug as p_slug, p.created as p_created, cp.title as p_title "
-                . "FROM gallery p LEFT JOIN contents cp ON cp.module = 'gallery' AND cp.module_id = p.id AND cp.language = 'ru' "
+                . "FROM gallery p LEFT JOIN contents cp ON cp.module = 'gallery' AND cp.module_id = p.id AND cp.language = 'lv' "
                 . "WHERE p.deleted = 1 ORDER BY p.created";
         $command = $connection->createCommand($sql);
         $dataReader = $command->query();
         $galleries = $dataReader->readAll();
+		
+		// Gallery
+        $sql = "SELECT DISTINCT p.id as p_id, p.slug as p_slug, p.created as p_created, cp.title as p_title "
+                . "FROM categories p LEFT JOIN contents cp ON cp.module = 'category' AND cp.module_id = p.id AND cp.language = 'lv' "
+                . "WHERE p.deleted = 1 ORDER BY p.created";
+        $command = $connection->createCommand($sql);
+        $dataReader = $command->query();
+        $categories = $dataReader->readAll();
 
         $this->render('index', array(
             'products' => $products,
@@ -54,6 +62,7 @@ class DeletedController extends AdminController {
             'pages' => $pages,
             'articles' => $articles,
             'galleries' => $galleries,
+			'categories' => $categories
         ));
     }
 
@@ -94,6 +103,12 @@ class DeletedController extends AdminController {
                 break;
             case 'gallery':
                 $model = Gallery::model()->findByPk($id);
+                if ($model->deleted == 1) {
+                    $model->deleted = 0;
+                    $model->save();
+                }
+			case 'category':
+                $model = Category::model()->findByPk($id);
                 if ($model->deleted == 1) {
                     $model->deleted = 0;
                     $model->save();
@@ -176,6 +191,19 @@ class DeletedController extends AdminController {
                 if ($model AND $model->deleted == 1) {
                     $contents = Content::model()->findAllByAttributes(array(
                         'module' => 'gallery',
+                        'module_id' => $model->id,
+                            ));
+                    foreach ($contents AS $content) {
+                        $content->delete();
+                    }
+                    $model->delete();
+                }
+                break;
+			case 'category':
+                $model = Category::model()->findByPk($id);
+                if ($model AND $model->deleted == 1) {
+                    $contents = Content::model()->findAllByAttributes(array(
+                        'module' => 'category',
                         'module_id' => $model->id,
                             ));
                     foreach ($contents AS $content) {

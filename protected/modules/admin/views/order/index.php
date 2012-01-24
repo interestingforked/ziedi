@@ -23,9 +23,8 @@
             <tbody>
             <?php 
             foreach ($orders AS $order):
-                $user = User::model()->findByPk($order->user_id);
-                $profile = $user->profile;
-                $fullname = $profile->firstname.' '.$profile->lastname;
+                $orderDetail = $order->orderDetail;
+				$fullname = $orderDetail->b_name.' '.$orderDetail->b_surname;
             ?>
                 <tr>
                     <td><?php echo CHtml::link($fullname, array('/admin/order/user/'.$order->user_id)); ?></td>

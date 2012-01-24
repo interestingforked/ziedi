@@ -39,8 +39,8 @@ a:hover{color:#a61925;}
 #layout {min-width:960px;}
 #header, #footer{position: relative;}
 #header .inner, #page-body .inner, #footer .inner{max-width:1300px;margin:0 auto;}
-#header:after, #page-body:after,.add-card:after, ul.lang:after,.steps:after, ul.currency:after, .clearfix:after, #head-banner:after , .gifts:after, .gift-wrap:after{content:'';display:block;clear:both;height:0}
-* html #header, #page-body, ul.lang, ul.currency,.add-card, .clearfix,.steps, #head-banner, .gifts, .gift-wrap { zoom: 1; } /* IE6, IE7 */
+#header:after, #page-body:after,.add-card:after,.price:after, ul.lang:after,.steps:after, ul.currency:after, .clearfix:after, #head-banner:after , .gifts:after, .gift-wrap:after{content:'';display:block;clear:both;height:0}
+* html #header, #page-body, ul.lang, ul.currency,.price,.add-card, .clearfix,.steps, #head-banner, .gifts, .gift-wrap { zoom: 1; } /* IE6, IE7 */
 
 #page-body{padding:0px 20px 10px;}
 
@@ -123,7 +123,7 @@ table.picto td{vertical-align:top;}
 }
 #banner img {height: 151px; position: absolute; width: 1400px;}
 /* MENU */
-div.left-navigation {display:block;font-size:95%;padding:5px 15px 20px 15px; border:solid 1px #e5e5e5;
+div.left-navigation {display:block;padding:5px 15px 20px 15px; border:solid 1px #e5e5e5;
              -webkit-border-radius: 5px;
              -moz-border-radius: 5px;
              border-radius: 5px;}
@@ -132,7 +132,7 @@ ul.navigation li {display:block;margin: 0 0 0.4em;}
 ul.navigation li a {text-decoration:none;}
 ul.navigation li a:hover {text-decoration:underline;}
 
-ul.navigation b {background:url(/images/bg_menu.gif) no-repeat right;padding:2px 18px 3px 6px;font-weight:normal;margin-left:-6px;position:relative;}
+ul.navigation b {display:inline-block;background:url(/images/bg_menu.gif) no-repeat right;padding:2px 18px 3px 6px;font-weight:normal;margin-left:-6px;position:relative;}
 ul.submenu {margin:0.4em 0 0.8em 15px;}
 ul.submenu li{font-size:90%;}
 ul.navigation li.current b a {text-decoration:none; color:#ffffff;}
@@ -146,13 +146,16 @@ table.flowers td {vertical-align:top; padding:2px 2px 20px 2px;}
 table.flowers td.left {width:300px;}
 table.flowers td.right {padding-left:15px;}
 table.flowers strong{font-weight:bold;}
-.images {height:300px;margin-bottom:10px;}
+.images {height:396px;margin-bottom:10px;}
 .thumb img {border:solid 1px #307714; margin:0 3px 3px 0;}
 div.img-height{height:220px;}
+.cat-img{border-bottom:solid 1px #e5e5e5;}
 .fl-title {font-size:84%; margin:10px 5px;height:30px;}
 .fl-title a {text-decoration:none;color:#000000;}
 .fl-title a:hover {text-decoration:underline;color:#a41d2e;}
-.price{color: #307714;font-size:95%;}
+.price{font-size:95%;clear:both;}
+.price .left {float:left;color:#307714;font-weight:bold;padding-left:5px;}
+.price .right {float:right;background:url(/images/to_cart.png) no-repeat left;padding:2px 8px 3px 12px;color:#ffffff;font-size:85%;}
 .prod-title h1 {color:#a41d2e;font-size:90%;font-weight:bold;}
 .prod-desc {margin:10px 0 10px 0;font-size:90%;}
 .prod-price {margin:20px 0 10px 0; font-weight:bold; font-size:90%;color:#a41d2e;}
@@ -179,7 +182,7 @@ ul.poetry li a {text-decoration:none;}
 .list div.img img {display:block;margin:0 auto;}
 .list div span {display:block;}
 .crumbs {margin-bottom:10px; font-size:1.2em;}
-.text{font-size:90%;}
+.text{font-size:90%;padding-right:20px;padding-top:5px;}
 /*shopping cart*/
 table.sh-cart,table.ordering {background-color:#fff;}
 table.sh-cart td,table.gifts td, table.ordering td{padding:10px;}

@@ -59,12 +59,20 @@ class Controller extends CController {
         $this->topBlock = Block::model()->getBlock(1);
         $this->rightBlock = Block::model()->getBlock(2);
 
-        if (isset($_GET['lang']))
-            Yii::app()->setLanguage($_GET['lang']);
-        else
+        $session = new CHttpSession();
+        $session->open();
+        
+        if ($session->contains('language')) {
+            Yii::app()->setLanguage($session->get('language'));
+        } else {
             Yii::app()->setLanguage(Language::getdefaultLanguage());
-
-        $this->setLanguage(Yii::app()->language);
+            $session->add('language', Yii::app()->language);
+        }
+        
+        if (isset($_GET['lang'])) {
+            Yii::app()->setLanguage($_GET['lang']);
+            $session->add('language', Yii::app()->language);
+        }
 
         $link = ($_SERVER['REQUEST_URI'] != '/') ? $_SERVER['REQUEST_URI'] : '/' . Yii::app()->language . '/';
         $this->link = array(
@@ -77,10 +85,7 @@ class Controller extends CController {
         foreach ($settings as $setting) {
             $this->settings[$setting->key] = $setting->value;
         }
-        
-        $session = new CHttpSession();
-        $session->open();
-        
+
         if ($session->contains('currency')) {
             $this->currency = $session->get('currency');
         } else {

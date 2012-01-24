@@ -3,7 +3,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $('#goBack').click(function () {
-        location.href='<?php echo CHtml::normalizeUrl('/cart'); ?>';
+        location.href='/<?php echo Yii::app()->language.CHtml::normalizeUrl('/cart'); ?>';
     });
 });
 </script>
@@ -15,7 +15,7 @@ $(document).ready(function () {
                 <li>1</li><li class="current">2. <?php echo Yii::t('app', 'Piegādes laiks un adrese'); ?></li><li>3</li><li>4</li>
             </ul>
         </div>
-        <?php echo CHtml::beginForm(); ?>
+        <?php echo CHtml::beginForm('', 'post', array('id' => 'checkoutStep1')); ?>
         <div class="over-ordering">
             <table class="ordering">
                 <tr>
@@ -56,6 +56,7 @@ $(document).ready(function () {
                         </strong>
                         <input type="hidden" name="price" id="price" value="<?php echo number_format($price / $this->currencyValue,2,'.',''); ?>">
                         <input type="hidden" name="shippingPrice" id="shippingPrice" value="<?php echo $order->shipping; ?>">
+                        <input type="hidden" name="additionalPrice" id="additionalPrice" value="<?php echo $order->additional; ?>">
                     </td>
                 </tr>
                 <tr>
@@ -64,7 +65,7 @@ $(document).ready(function () {
                 </tr>
                 <tr>
                     <td class="first"><?php echo Yii::t('app', 'Precīza adrese'); ?></td>
-                    <td><textarea class="form-textarea" name="full_address" cols="30" rows="3"><?php echo $data->full_address; ?></textarea>
+                    <td><textarea class="form-textarea" id="full_address" name="full_address" cols="30" rows="3"><?php echo $data->full_address; ?></textarea>
                         <p style="font-size:85%;padding-top:3px;"><?php echo Yii::t('app', 'Norādiet precīzo adresi, firmas nosaukumu, darba laiku, koda atslēgu'); ?>...</p>
                     </td>
                 </tr>

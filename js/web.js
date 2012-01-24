@@ -11,10 +11,11 @@ $(document).ready(function () {
         var elementHtml = $('.navigation .current').html();
         $('.navigation .current').html('<b>' + elementHtml + '</b>');
     }
-    
+
     $('.navigation a').click(function () {
         var url = $(this).attr('href');
         if (url == '#') {
+            $('.navigation .submenu').slideUp();
             $(this).parent().find('.submenu').slideToggle();
             return false;
         } else {
@@ -58,6 +59,10 @@ $(document).ready(function () {
     });
     
     $('.gift-select a').live('click', function () {
+        $('.gift-select li').removeClass('current');
+        $(this).parent().addClass('current');
+        var html = $(this).html();
+        $(this).html('<b>' + html + '</b>');
         var url = $(this).attr('href');
         if (url == '#') return false;
         $.get(url, function (data) {
@@ -135,79 +140,112 @@ $(document).ready(function () {
         return false;
     });
     
+    $('.addToCartButton').live('click', function () {
+        var formId = $(this).attr('rel');
+        $('#' + formId).submit();
+        return false;
+    });
+    
+    $('#checkoutStep1').submit(function () {
+        if ( ! checkDate()) {
+            return false;
+        }
+        if ($('#full_address').val() == null || $('#full_address').val() == '') {
+            messageAlert(5);
+            return false;
+        }
+        return true;
+    });
+    
     var price = parseFloat($('#price').val());
     var shippingPrice = parseFloat($('#shippingPrice').val());
-    $('#thePrice').text(price + shippingPrice);
+    var additionalPrice = parseFloat($('#additionalPrice').val());
+    $('#thePrice').text(price + additionalPrice + shippingPrice);
 
-    $('#shipping_time').change();
-    $('#shipping_time').change(function () {
+    $('#shipping_time').live('change', function () {
         var price = parseFloat($('#price').val());
+        var shippingPrice = parseFloat($('#shippingPrice').val());
+        var additionalPrice = parseFloat($('#additionalPrice').val());
+
         var value = $(this).val();
         if (value == '5') {
             $('#shippingExactTime').show();
+            if (additionalPrice == 0 || additionalPrice == 3) {
+                additionalPrice += 7;
+            }
         } else {
             $('#shippingExactTime').hide();
+            if (additionalPrice == 7 || additionalPrice == 10) {
+                additionalPrice = additionalPrice - 7;
+            }
             checkDate();
         }
-        $('#shippingPrice').val(7);
+        
+        $('#additionalPrice').val(additionalPrice);
+        $('#shipping_city').change();
+        
+        $('#thePrice').text(price + additionalPrice + shippingPrice);
+    });
+
+    $('#clarify_everything').live('click', function () {
+        var price = parseFloat($('#price').val());
+        var additionalPrice = parseFloat($('#additionalPrice').val());
         var shippingPrice = parseFloat($('#shippingPrice').val());
-        $('#thePrice').text(price + shippingPrice);
-    });
-    
-    $('#shipping_date_day, #shipping_date_month, #shipping_date_year, #exact_interval_from_h, '+
-            '#exact_interval_from_m, #exact_interval_till_h, #exact_interval_till_m, ').change(function () {
-        checkDate();
-    });
-    
-    $('#clarify_everything').click(function () {
-        var price = parseFloat($('#thePrice').text());
         if ($(this).prop('checked') == true) {
-            $('#thePrice').text(price + 3.00);
-            $('#price').val(price + 3.00);
+            if (additionalPrice == 0 || additionalPrice == 7) {
+                additionalPrice += 3;
+            } else {
+                additionalPrice = 3;
+            }
         } else {
-            $('#thePrice').text(price - 3.00);
-            $('#price').val(price - 3.00);
+            if (additionalPrice == 3 || additionalPrice == 10) {
+                additionalPrice = additionalPrice - 3;
+            }
         }
+        $('#additionalPrice').val(additionalPrice)
+        $('#thePrice').text(price + additionalPrice + shippingPrice);
     });
-    
-    $('#shipping_city').change();
+
     $('#shipping_city').change(function () {
         var price = parseFloat($('#price').val());
-        var shippingPrice = parseFloat($('#shippingPrice').val());
+        var additionalPrice = parseFloat($('#additionalPrice').val());
+        var shippingPrice = 0;
         var value = $(this).val();
         switch (value) {
             case '1':
-                shippingPrice = 0;
+                shippingPrice += 0;
                 break;
             case '2':
             case '3':
             case '6':
-                shippingPrice = 5;
+                shippingPrice += 5;
                 break;
             case '4':
             case '7':
             case '8':
-                shippingPrice = 10;
+                shippingPrice += 10;
                 break;
             case '5':
-                shippingPrice = 15;
+                shippingPrice += 15;
                 break;
         }
         var nowDate = new Date();
         if ($('#shipping_time').val() == '1' || $('#shipping_time').val() == '4' || nowDate.getDay() > 4) {
-            shippingPrice = shippingPrice + 5;
+            shippingPrice += 5;
             if (value == '8') {
-                shippingPrice = shippingPrice + 5;
+                shippingPrice += 5;
             }
-        } else {
-            
         }
         $('#shippingPrice').val(shippingPrice);
-        $('#thePrice').text(price + shippingPrice);
+        $('#thePrice').text(price + additionalPrice + shippingPrice);
     });
     
-    $('#shipping_time').change(function () {
-        $('#shipping_city').change();
+    $('#shipping_time').change();
+    $('#shipping_city').change();
+
+    $('#shipping_date_day, #shipping_date_month, #shipping_date_year, #exact_interval_from_h, '+
+            '#exact_interval_from_m, #exact_interval_till_h, #exact_interval_till_m, ').change(function () {
+        checkDate();
     });
     
     var messages = {
@@ -216,14 +254,16 @@ $(document).ready(function () {
             1: 'Intervals jau ir pagatnē!',
             2: 'Šo intervalu vairs nevar izvēlēties!',
             3: 'Piegāde ir iespējama ne atrāk ka divas stundas pēc pasūtījuma noformēšanas!',
-            4: 'Izējamās dienās piegāde ārpus Rīgas rajona netiek piedāvāta!'
+            4: 'Izējamās dienās piegāde ārpus Rīgas rajona netiek piedāvāta!',
+            5: 'Lauks "Precīza adrese" jābūt aizpildīts!'
         },
         ru : {
             0: 'Эта дата уже в прошлом!',
             1: 'Интервал уже в прошлом!',
             2: 'Этот интервал уже нельзя выбрать!',
             3: 'Доставка возможна только через два часа после оформления заказа!',
-            4: 'Доставка вне Рижского района на выходных не осуществляется!'
+            4: 'Доставка вне Рижского района на выходных не осуществляется!',
+            5: 'Поле "Точный адрес" обязательно для заполнения!'
         }
     };
     

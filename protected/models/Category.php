@@ -52,13 +52,24 @@ class Category extends CActiveRecord {
             'created' => 'Created',
         );
     }
+	
+	public function scopes() {
+        return array(
+            'active' => array(
+                'condition' => 'active = 1'
+            ),
+            'notDeleted' => array(
+                'condition' => 'deleted = 0'
+            ),
+        );
+    }
 
     public function getAllCategories() {
-        return $this->findAll("id > 1");
+        return $this->notDeleted()->findAll("id > 1");
     }
 
     public function getCategory($slug) {
-        $category = $this->findByAttributes(array('slug' => $slug));
+        $category = $this->notDeleted()->findByAttributes(array('slug' => $slug));
         if (!$category) {
             return false;
         }
@@ -67,18 +78,18 @@ class Category extends CActiveRecord {
     }
     
     public function getCategorySlug($id) {
-        $category = $this->findByPk($id);
+        $category = $this->notDeleted()->findByPk($id);
         return ($category) ? $category->slug : false;
     }
     
     public function getGiftParent() {
-        return $this->findByAttributes(array(
+        return $this->notDeleted()->findByAttributes(array(
             'gift' => 1
         ));
     }
     
     public function getPostcardParent() {
-        return $this->findByAttributes(array(
+        return $this->notDeleted()->findByAttributes(array(
             'postcard' => 1
         ));
     }
@@ -87,7 +98,7 @@ class Category extends CActiveRecord {
         $subitems = array();
         if ($this->childs)
             foreach ($this->childs as $child) {
-                if ($child->active != 1)
+                if ($child->active != 1 OR $child->deleted == 1)
                     continue;
                 $subitems[] = $child->getListed($id, $visibleAll);
             }
@@ -111,6 +122,8 @@ class Category extends CActiveRecord {
         }
         if ($this->childs)
             foreach ($this->childs as $child) {
+				if ($child->deleted == 1)
+                    continue;
                 $subitems[] = $child->getTableRows($level);
             }
         if ($this->id != 1) {
@@ -137,6 +150,8 @@ class Category extends CActiveRecord {
         $title = (isset($categoryContent->title)) ? $categoryContent->title : '';
         if ($this->childs)
             foreach ($this->childs as $child) {
+				if ($child->deleted == 1)
+                    continue;
                 $subitems[] = $child->getOptionList($title);
             }
         if ($this->id > 1) {

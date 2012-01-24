@@ -7,12 +7,36 @@
     <div class="block_content">
         <div class="sidebar">
             <ul class="sidemenu">
+				<li><a href="#sb1">Categories</a></li>
                 <li><a href="#sb2">Products</a></li>
                 <li><a href="#sb3">Product nodes</a></li>
                 <li><a href="#sb4">Pages</a></li>
                 <li><a href="#sb5">Articles</a></li>
                 <li><a href="#sb6">Galleries</a></li>
             </ul>
+        </div>
+		<div class="sidebar_content" id="sb1">
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Date created</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($categories AS $item):  ?>
+                    <tr>
+                        <td><?php echo CHtml::link($item['p_title'], array('/admin/category/edit/'.$item['p_id'])); ?></td>
+                        <td><?php echo $item['p_created']; ?></td>
+                        <td class="delete">
+                            <?php echo CHtml::link('Restore', array('/admin/deleted/restore/'.$item['p_id'].'?module=category')); ?>
+                            <?php echo CHtml::link('Delete', array('/admin/deleted/delete/'.$item['p_id'].'?module=category'), array('class' => 'delete')); ?>
+                        </td>
+                    </tr>
+                <?php endforeach; $item = null; ?>
+                </tbody>
+            </table>
         </div>
         <div class="sidebar_content" id="sb2">
             <table cellpadding="0" cellspacing="0" width="100%">

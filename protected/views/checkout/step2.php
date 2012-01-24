@@ -3,7 +3,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $('#goBack').click(function () {
-        location.href='<?php echo CHtml::normalizeUrl('/checkout/step1'); ?>';
+        location.href='/<?php echo Yii::app()->language.CHtml::normalizeUrl('/checkout/step1'); ?>';
     });
     $('#step2-form').submit(function () {
         var accepted = $('#rules').prop('checked');
@@ -38,7 +38,7 @@ $(document).ready(function () {
                 </tr>
                 <tr>
                     <td class="first"><?php echo Yii::t('app', 'Pilna summa apmaksai'); ?></td>
-                    <td><?php echo number_format(($order->total + $order->shipping) / $this->currencyValue,2,'.','').' '.Yii::app()->params['currencies'][$this->currency]; ?></td>
+                    <td><?php echo number_format(($order->total + $order->shipping + $order->additional) / $this->currencyValue,2,'.','').' '.Yii::app()->params['currencies'][$this->currency]; ?></td>
                 </tr>
                 <tr>
                     <td class="first"><?php echo Yii::t('app', 'Apmaksas veids'); ?></td>
