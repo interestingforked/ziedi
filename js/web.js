@@ -59,7 +59,14 @@ $(document).ready(function () {
     });
     
     $('.gift-select a').live('click', function () {
-        $('.gift-select li').removeClass('current');
+        var prevEleme = $(this).parent().parent().find('.current');
+        var prevHtml = $(prevEleme).html();
+        if (prevHtml != null) {
+            prevHtml = prevHtml.replace('<b>','');
+            prevHtml = prevHtml.replace('</b>','');
+            $(prevEleme).html(prevHtml)
+        }
+        $(prevEleme).removeClass('current');
         $(this).parent().addClass('current');
         var html = $(this).html();
         $(this).html('<b>' + html + '</b>');
