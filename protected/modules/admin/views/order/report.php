@@ -24,7 +24,6 @@
                     <th>User</th>
                     <th>Quantity</th>
                     <th>Total</th>
-                    <th>Coupon</th>
                     <th>Status</th>
                     <th>Date created</th>
                     <th>&nbsp;</th>
@@ -33,15 +32,13 @@
             <tbody>
             <?php 
             foreach ($orders AS $order):
-                $user = User::model()->findByPk($order->user_id);
-                $profile = $user->profile;
-                $fullname = $profile->firstname.' '.$profile->lastname;
+            $orderDetail = $order->orderDetail;
+            $fullname = $orderDetail->b_name.' '.$orderDetail->b_surname;
             ?>
                 <tr>
-                    <td><?php echo CHtml::link($fullname, array('/admin/order/user/'.$order->user_id)); ?></td>
+                    <td><?php echo $fullname; ?></td>
                     <td><?php echo $order->quantity; ?></td>
                     <td><?php echo $order->total; ?></td>
-                    <td><?php echo ($order->coupon_id > 0 ? 'Yes' : 'No'); ?></td>
                     <td><?php 
                         switch ($order->status) {
                             case 1: echo 'New order'; break;

@@ -51,8 +51,6 @@ class Content extends CActiveRecord {
     public function getModuleContent($module, $moduleId, $language = null) {
         if (!$language) {
             $language = Yii::app()->language;
-            if (!$language)
-                $language = Yii::app()->params['defaultLanguage'];
         }
         $content = $this->findByAttributes(array(
             'module' => $module,

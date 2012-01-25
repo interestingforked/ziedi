@@ -107,7 +107,7 @@ class Category extends CActiveRecord {
         $returnarray = array(
             'label' => (isset($categoryContent->title)) ? $categoryContent->title : '',
             'url' => ($this->childs) ? '#' : array('/' . $this->slug),
-            'active' => $active
+            'active' => (($this->parent_id == 1) ? preg_match('/'.$this->slug.'\/[a-zA-Z0-9\-]+/', $id) : ($this->slug == $id))
         );
         if ($subitems != array())
             $returnarray = array_merge($returnarray, array('items' => $subitems));

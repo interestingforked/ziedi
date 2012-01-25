@@ -45,20 +45,6 @@ class Controller extends CController {
     protected function beforeAction($action) {
         self::processUrl();
 
-        $id = $_SERVER['REQUEST_URI'];
-
-        $rootPage = Page::model()->findByPk(1);
-        $this->menu = $rootPage->getListed($id);
-
-        $rootCategory = Category::model()->findByPk(1);
-        $this->categories = $rootCategory->getListed($id);
-
-        $this->wishlistManager = new WishlistManager();
-        $this->cart = new CartManager();
-        
-        $this->topBlock = Block::model()->getBlock(1);
-        $this->rightBlock = Block::model()->getBlock(2);
-
         $session = new CHttpSession();
         $session->open();
         
@@ -99,6 +85,20 @@ class Controller extends CController {
         }
 
         $this->currencyValue = $this->settings['CURRENCY_'.strtoupper($this->currency).'_VALUE'];
+
+        $id = preg_replace('/\/[a-z]{2}\//','',$_SERVER['REQUEST_URI']);
+
+        $rootPage = Page::model()->findByPk(1);
+        $this->menu = $rootPage->getListed($id);
+
+        $rootCategory = Category::model()->findByPk(1);
+        $this->categories = $rootCategory->getListed($id);
+
+        $this->wishlistManager = new WishlistManager();
+        $this->cart = new CartManager();
+        
+        $this->topBlock = Block::model()->getBlock(1);
+        $this->rightBlock = Block::model()->getBlock(2);
 
         return parent::beforeAction($action);
     }

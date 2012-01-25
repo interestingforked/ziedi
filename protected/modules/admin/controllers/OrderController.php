@@ -74,12 +74,10 @@ class OrderController extends AdminController {
         if (!$order) {
             $this->redirect(array('/admin/order'));
         }
-        $paymentDetails = OrderDetail::model()->getOrderPaymentData($id);
-        $shippingDetails = OrderDetail::model()->getOrderShipingData($id);
+        $orderDetail = $order->orderDetail;
         $orderItems = $order->items;
-
-        $user = User::model()->findByPk($order->user_id);
-        $profile = $user->profile;
+        
+        $checkoutData = new CheckoutData();
 
         $products = array();
         foreach ($orderItems AS $item) {
@@ -94,12 +92,10 @@ class OrderController extends AdminController {
 
         $this->render('view', array(
             'order' => $order,
-            'paymentDetails' => $paymentDetails,
-            'shippingDetails' => $shippingDetails,
+            'orderDetail' => $orderDetail,
             'orderItems' => $orderItems,
             'products' => $products,
-            'user' => $user,
-            'userProfile' => $profile,
+            'checkoutData' => $checkoutData,
         ));
     }
 

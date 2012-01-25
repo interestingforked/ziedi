@@ -156,6 +156,7 @@ div.img-height{height:220px;}
 .price{font-size:95%;clear:both;}
 .price .left {float:left;color:#307714;font-weight:bold;padding-left:5px;}
 .price .right {float:right;background:url(/images/to_cart.png) no-repeat left;padding:2px 8px 3px 12px;color:#ffffff;font-size:85%;}
+.price .right a{color:#ffffff;text-decoration:none;}
 .prod-title h1 {color:#a41d2e;font-size:90%;font-weight:bold;}
 .prod-desc {margin:10px 0 10px 0;font-size:90%;}
 .prod-price {margin:20px 0 10px 0; font-weight:bold; font-size:90%;color:#a41d2e;}
@@ -171,7 +172,8 @@ ul.prod-size {margin-bottom:20px;font-size:80%;}
 ul.gift-select li {display:block;padding:4px 5px 4px 10px;}
 ul.gift-select a {text-decoration:none;}
 ul.gift-select a:hover{text-decoration:underline;}
-ul.gift-select li.current{background:url(/images/bg_menu.gif) no-repeat right;color:#fff;}
+ul.gift-select li.current b{background:url(/images/bg_menu.gif) no-repeat right;color:#fff;display:inline-block;padding:2px 20px 3px 10px;margin-left:-6px;position:relative;}
+
 .gift-wrap .card-text{width:100%;}
 .gift-wrap .card-text td{width:50%; padding:2px;}
 ul.poetry{margin-bottom:5px;}

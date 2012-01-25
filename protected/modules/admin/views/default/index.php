@@ -24,10 +24,10 @@
             <tbody>
                 <?php foreach ($lastOrders AS $lastOrder): 
                 $orderDetail = $lastOrder->orderDetail;
-				$fullname = $orderDetail->b_name.' '.$orderDetail->b_surname;
+                $fullname = $orderDetail->b_name.' '.$orderDetail->b_surname;
                 ?>
                 <tr>
-                    <td><?php echo CHtml::link($fullname, array('/admin/user/view/'.$lastOrder->user_id)); ?></td>
+                    <td><?php echo $fullname; ?></td>
                     <td><?php echo $lastOrder->quantity; ?></td>
                     <td><?php echo $lastOrder->total; ?></td>
                     <td><?php echo $lastOrder->status; ?></td>
