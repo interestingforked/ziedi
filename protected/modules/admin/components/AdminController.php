@@ -36,7 +36,8 @@ class AdminController extends CController {
             array(
                 'label' => 'Content',
                 'url' => array('/admin/page'),
-                'active' => (in_array($activeMenuId, array('page', 'article', 'gallery', 'block'))),
+                'active' => (in_array($activeMenuId, array('page', 'article', 
+                    'gallery', 'block', 'phrasecategory', 'phrase'))),
                 'items' => array(
                     array(
                         'label' => 'Pages',
@@ -59,6 +60,16 @@ class AdminController extends CController {
                         'label' => 'Blocks',
                         'url' => array('/admin/block'),
                         'active' => ($activeMenuId == 'block')
+                    ),
+                    array(
+                        'label' => 'Phrases categories',
+                        'url' => array('/admin/phrasecategory'),
+                        'active' => ($activeMenuId == 'phrasecategory')
+                    ),
+                    array(
+                        'label' => 'Phrases',
+                        'url' => array('/admin/phrase'),
+                        'active' => ($activeMenuId == 'phrase')
                     ),
                 )
             ),

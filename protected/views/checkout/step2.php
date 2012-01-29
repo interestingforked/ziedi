@@ -36,6 +36,12 @@ $(document).ready(function () {
                     <td class="first"><?php echo Yii::t('app', 'Piegādes cena'); ?></td>
                     <td><?php echo number_format($order->shipping / $this->currencyValue,2,'.','').' '.Yii::app()->params['currencies'][$this->currency]; ?></td>
                 </tr>
+                <?php if ($order->additional > 0): ?>
+                <tr>
+                    <td class="first"><?php echo Yii::t('app', 'Papildus pakalpojumi'); ?></td>
+                    <td><?php echo number_format($order->additional / $this->currencyValue,2,'.','').' '.Yii::app()->params['currencies'][$this->currency]; ?></td>
+                </tr>
+                <?php endif; ?>
                 <tr>
                     <td class="first"><?php echo Yii::t('app', 'Pilna summa apmaksai'); ?></td>
                     <td><?php echo number_format(($order->total + $order->shipping + $order->additional) / $this->currencyValue,2,'.','').' '.Yii::app()->params['currencies'][$this->currency]; ?></td>

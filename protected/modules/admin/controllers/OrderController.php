@@ -101,8 +101,9 @@ class OrderController extends AdminController {
 
     public function actionDelete($id) {
         $order = Order::model()->findByPk($id);
-        foreach ($order->orderDetails AS $detail) {
-            $detail->delete();
+        $orderDetail = $order->orderDetail;
+        if ($orderDetail) {
+            $orderDetail->delete();
         }
         foreach ($order->items AS $item) {
             $item->delete();

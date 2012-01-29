@@ -101,6 +101,14 @@ class CartManager {
     public function setItemAsPostcard($productId, $productNodeId, $postcard = true) {
         $this->manager->setItemAsPostcard($productId, $productNodeId, $postcard);
     }
+    
+    public function getPhrase() {
+        return $this->manager->getPhrase();
+    }
+    
+    public function setPhrase($id, $phrase, $sign) {
+        $this->manager->setPhrase($id, $phrase, $sign);
+    }
 
     public function format_price($price) {
         $price = trim(preg_replace('/([^0-9\.])/i', '', $price));

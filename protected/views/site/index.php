@@ -6,7 +6,7 @@
 <table class="flowers">
 <?php 
 $productCount = count($products);
-$columns = 2;
+$columns = 3;
 $rows = ceil($productCount / $columns);
 $c = 0;
 for ($i = 0; $i < $rows; $i++) {
@@ -45,7 +45,7 @@ for ($i = 0; $i < $rows; $i++) {
 	  </div>
         </td>
         <?php
-        if ($j == 0) {
+        if ($j < 2) {
             echo '<td style="width:0px;"></td>';
         }
         $c++;

@@ -33,7 +33,8 @@ class ProductNode extends CActiveRecord {
             array('product_id', 'length', 'max' => 11),
             array('price, old_price', 'length', 'max' => 15),
             array('color, size', 'length', 'max' => 30),
-            array('id, product_id, active, main, new, sale, preorder, notify, price, old_price, quantity, sort, color, size, never_runs_out, deleted, created', 'safe', 'on' => 'search'),
+            array('precise_size', 'length', 'max' => 100),
+            array('id, product_id, active, main, new, sale, preorder, notify, price, old_price, quantity, sort, color, size, precise_size, never_runs_out, deleted, created', 'safe', 'on' => 'search'),
         );
     }
 

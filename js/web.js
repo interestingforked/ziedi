@@ -30,7 +30,7 @@ $(document).ready(function () {
             url: document.URL,
             data: 'node=' + productNodeId,
             success: function (responseData) {
-                $('#price').val(responseData);
+                $('#orderForm #price').val(responseData);
                 
                 var priceText = $('.prod-price').text();
                 $('.prod-price').text(priceText.replace(/\d+\.\d+/, responseData));
@@ -40,26 +40,33 @@ $(document).ready(function () {
         });
     });
     
-    $('.postcardList a').live('click', function () {
+    $('#poetryList a').live('click', function () {
         var url = $(this).attr('href');
         if (url == '#') return false;
-        $.get(url, function (data) {
-            $('#postcardList').html(data);
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (responseData) {
+                $('#poetryId').val(responseData.id);
+                $('#poetryVariant').html(responseData.content);
+            },
+            dataType: 'json'
         });
         return false;
     });
     
-    $('.giftList a').live('click', function () {
-        var url = $(this).attr('href');
-        if (url == '#') return false;
-        $.get(url, function (data) {
-            $('#giftList').html(data);
-        });
+    $('#submitPhrase').live('click', function () {
+        var phraseId = $('#poetryId').val();
+        var phraseContent = $('#poetryVariant').html();
+        $('#phrase_id').val(phraseId);
+        $('#phrase').html(phraseContent);
         return false;
     });
     
     $('.gift-select a').live('click', function () {
-        var prevEleme = $(this).parent().parent().find('.current');
+        var list = $(this).parent().parent();
+        var area = $(list).attr('title');
+        var prevEleme = $(list).find('.current');
         var prevHtml = $(prevEleme).html();
         if (prevHtml != null) {
             prevHtml = prevHtml.replace('<b>','');
@@ -73,14 +80,17 @@ $(document).ready(function () {
         var url = $(this).attr('href');
         if (url == '#') return false;
         $.get(url, function (data) {
-            $('.gift-list').html(data);
+            $('#' + area).html(data);
+            if (area == 'poetryList') {
+                $('#poetryList a:first').click();
+            }
         });
         return false;
     });
-    
-    $('.postcardList a:first').click();
-    $('.giftList a:first').click();
-    $('.gift-select a:first').click();
+
+    $('.gift-select').each(function (index) {
+        $(this).find('a:first').click();
+    });
     
     $('.list .img a').live('click', function () {
         $.fancybox({
@@ -119,6 +129,7 @@ $(document).ready(function () {
         $('#tmpForm #productId').val(productInfo[0]);
         $('#tmpForm #productNodeId').val(productInfo[1]);
         $('#tmpForm').submit();
+        return false;
     });
     
     $('.orderItem').live('click', function () {
@@ -190,6 +201,7 @@ $(document).ready(function () {
         
         $('#additionalPrice').val(additionalPrice);
         $('#shipping_city').change();
+        shippingPrice = parseFloat($('#shippingPrice').val());
         
         $('#thePrice').text(price + additionalPrice + shippingPrice);
     });
@@ -243,6 +255,15 @@ $(document).ready(function () {
                 shippingPrice += 5;
             }
         }
+        if ($('#shipping_time').val() == '5') {
+            var timeFromH = parseInt($('#exact_interval_from_h').val());
+            if ((timeFromH >= 7 && timeFromH < 8) || timeFromH >= 18) {
+                shippingPrice += 5;
+                if (value == '8') {
+                    shippingPrice += 5;
+                }
+            }
+        }
         $('#shippingPrice').val(shippingPrice);
         $('#thePrice').text(price + additionalPrice + shippingPrice);
     });
@@ -252,6 +273,7 @@ $(document).ready(function () {
 
     $('#shipping_date_day, #shipping_date_month, #shipping_date_year, #exact_interval_from_h, '+
             '#exact_interval_from_m, #exact_interval_till_h, #exact_interval_till_m, ').change(function () {
+        $('#shipping_city').change();
         checkDate();
     });
     
@@ -262,7 +284,8 @@ $(document).ready(function () {
             2: 'Šo intervalu vairs nevar izvēlēties!',
             3: 'Piegāde ir iespējama ne atrāk ka divas stundas pēc pasūtījuma noformēšanas!',
             4: 'Izējamās dienās piegāde ārpus Rīgas rajona netiek piedāvāta!',
-            5: 'Lauks "Precīza adrese" jābūt aizpildīts!'
+            5: 'Lauks "Precīza adrese" jābūt aizpildīts!',
+            6: 'Intervāls nevar būt mazāks par vienu stundu!'
         },
         ru : {
             0: 'Эта дата уже в прошлом!',
@@ -270,7 +293,8 @@ $(document).ready(function () {
             2: 'Этот интервал уже нельзя выбрать!',
             3: 'Доставка возможна только через два часа после оформления заказа!',
             4: 'Доставка вне Рижского района на выходных не осуществляется!',
-            5: 'Поле "Точный адрес" обязательно для заполнения!'
+            5: 'Поле "Точный адрес" обязательно для заполнения!',
+            6: 'Интервал не может быть менее одного часа!'
         }
     };
     
@@ -335,8 +359,8 @@ $(document).ready(function () {
                 messageAlert(4);
                 return false;
             }
-            if (timeTillH < timeFromM) {
-                messageAlert(2);
+            if (timeTillH < timeFromH) {
+                messageAlert(6);
                 return false;
             }
             var nowH = nowDate.getHours();
@@ -347,6 +371,11 @@ $(document).ready(function () {
             }
             if (timeFromH <= (nowH + 2) || (timeFromH == (nowH + 2) && timeFromM <= nowM)) {
                 messageAlert(3);
+                return false;
+            }
+        } else {
+            if (timeTillH <= timeFromH) {
+                messageAlert(6);
                 return false;
             }
         }

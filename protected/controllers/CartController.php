@@ -26,6 +26,9 @@ class CartController extends Controller {
                 else
                     $this->cart->changeQuantity($_POST['productId'], $_POST['productNodeId'], $_POST['quantity']);
             }
+            if ($_POST['action'] == 'addPhrase') {
+                $this->cart->setPhrase($_POST['phrase_id'], $_POST['phrase'], $_POST['phrase_sign']);
+            }
 
             if ($_POST['action'] == 'copy_from_wishlist') {
                 foreach ($this->wishlistManager->getItems() AS $wishlistItem) {
@@ -93,6 +96,9 @@ class CartController extends Controller {
         
         $postcardRoot = Category::model()->getPostcardParent();
         $postcards = $postcardRoot->getListed('postcard');
+        
+        $phraseRoot = Phrasecategory::model()->findByPk(1);
+        $phrases = $phraseRoot->getListed('postcard');
 
         $total = array(
             'count' => $this->cart->getTotalCount(),
@@ -102,7 +108,7 @@ class CartController extends Controller {
             'anonymous_delivery' => $this->cart->getAnonymousDelivery(),
             'free_delivery_photo' => $this->cart->getFreeDeliveryPhoto(),
         );
-        
+
         $this->breadcrumbs[] = Yii::t('app', 'Cart');
         $this->render('index', array(
             'list' => $cart,
@@ -116,7 +122,8 @@ class CartController extends Controller {
             'gifts' => $gifts,
             'postcards' => $postcards,
             'total' => $total,
-            'options' => $options
+            'options' => $options,
+            'phrases' => $phrases,
         ));
     }
 

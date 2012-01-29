@@ -7,7 +7,16 @@ $(document).ready(function () {
             alert('<?php echo Yii::t('app', 'Jūsu pasūtījuma summa nedrīkst būt mazaka par 15 Ls!'); ?>');
             return false;
         }
-        location.href='/<?php echo Yii::app()->language.CHtml::normalizeUrl('/checkout'); ?>';
+        var serializedInputs = $('#phrase_id,#phrase,#phrase_sign').serialize();
+        $.ajax({
+            type: 'POST',
+            url: '/<?php echo Yii::app()->language.CHtml::normalizeUrl('/checkout/phrase'); ?>',
+            data: serializedInputs,
+            success: function (responseData) {
+                location.href='/<?php echo Yii::app()->language.CHtml::normalizeUrl('/checkout'); ?>';
+            },
+            dataType: 'json'
+        });
     });
 });
 </script>
@@ -70,10 +79,11 @@ $(document).ready(function () {
         <div style="text-align:right; margin-top:10px; padding-right:10px;">
             <?php echo CHtml::hiddenField('totalPrice', number_format($total['price'] / $this->currencyValue,2,'.','')); ?>
             <div><b style="font-weight:bold;font-size:85%;"><?php echo Yii::t('app', 'Kopsumma bez piegādes'); ?>: <?php echo number_format($total['price'] / $this->currencyValue,2,'.','').Yii::app()->params['currencies'][$this->currency]; ?></b></div>
-            <div style="padding-top:8px;"><input type="submit" title="Pārrēķināt" value="Pārrēķināt" name="" style="width: 90px; height: 28px; border: 1px solid #307714; cursor: pointer; text-align: center; padding: 4px 4px 7px 4px; background-color: #ece9be; color: #000000;">
+            <div style="padding-top:8px;">
+                <input type="submit" title="Pārrēķināt" value="Pārrēķināt" name="" style="width: 90px; height: 28px; border: 1px solid #307714; cursor: pointer; text-align: center; padding: 4px 4px 7px 4px; background-color: #ece9be; color: #000000;">
                 &nbsp;<input type="button" class="orderButton" title="Pasūtīt" value="Pāsūtīt" name="" style="width: 90px; height: 28px; border: 1px solid #307714;font-weight:bold; cursor: pointer; text-align: center; padding: 4px 4px 7px 4px; background-color: #ece9be; color: #000000;"></div>
         </div>
-        <?php echo CHtml::endForm(); ?>
+        
     </div><br>
     <table class="gifts">
         <tr>
@@ -87,14 +97,57 @@ $(document).ready(function () {
                             'activeCssClass' => 'current',
                             'activateParents' => true,
                             'htmlOptions' => array(
-                                'class' => 'gift-select postcardList',
+                                'class' => 'gift-select',
+                                'title' => 'postcardList'
                             )
                         ));
                         ?>
                     </div>
                     <div class="list" id="postcardList"></div>
                 </div>
-                <div class="hr" style="margin:15px 0;"></div>
+                <div class="gift-wrap">
+                    <div><?php echo Yii::t('app', 'Не знаете, что написать?'); ?></div>
+                    <div class="selection">
+                        <?php
+                        $this->widget('zii.widgets.CMenu', array(
+                            'items' => $phrases['items'],
+                            'activeCssClass' => 'current',
+                            'activateParents' => true,
+                            'htmlOptions' => array(
+                                'class' => 'gift-select',
+                                'title' => 'poetryList'
+                            )
+                        ));
+                        ?>
+                    </div>
+                    <div class="add-card">
+                        <table class="card-text">
+                            <tr>
+                                <td><?php echo Yii::t('app', 'Поздравление в стихах'); ?>:</td>
+                                <td><?php echo Yii::t('app', 'Ваш текст в открытке'); ?>:</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <?php echo CHtml::textArea('poetryVariant', null, array('rows' => 5, 'cols' => 30)); ?>
+                                    <?php echo CHtml::hiddenField('poetryId', 0); ?>
+                                </td>
+                                <td>
+                                    <?php echo CHtml::textArea('phrase', '', array('rows' => 5, 'cols' => 30)); ?>
+                                    <?php echo CHtml::hiddenField('phrase_id', 0); ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><ul class="poetry" id="poetryList"></ul></td>
+                                <td><?php echo Yii::t('app', 'Подпись в открытке'); ?>:</td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" id="submitPhrase" value="<?php echo Yii::t('app', 'Разместить в открытке'); ?>" name="" style="border: 1px solid #307714;font-weight:bold; cursor: pointer; text-align: center;font-size:95%; padding: 2px 4px 2px 4px; background-color:#ааа; color: #000000;"></td>
+                                <td><?php echo CHtml::textField('phrase_sign', '', array('style' => 'wodth:250px;')); ?></td>
+                            </tr>
+                        </table>
+                        <?php echo CHtml::endForm(); ?>
+                    </div>
+                </div>
                 <div class="gift-wrap">
                     <div><?php echo Yii::t('app', 'Приложить <strong>подарок</strong>'); ?></div>
                     <div class="selection">
@@ -104,7 +157,8 @@ $(document).ready(function () {
                             'activeCssClass' => 'current',
                             'activateParents' => true,
                             'htmlOptions' => array(
-                                'class' => 'gift-select giftList',
+                                'class' => 'gift-select',
+                                'title' => 'giftList'
                             )
                         ));
                         ?>

@@ -99,9 +99,9 @@ table.picto td{vertical-align:top;}
 }
 .cart {display: block;
        margin: 0 10px 0 8px;
-       padding: 2px 5px 5px 30px;
+       padding: 2px 5px 5px 35px;
        position: relative; font-size:90%;}
-.cart img {display: block;left:0; overflow: hidden; position: absolute; top: 2px;}
+.cart img {display: block;left:0; overflow: hidden; position: absolute; top: -2px;}
 
 #head-banner {padding:20px 20px;position:relative;}
 #top-banner {min-height: 150px;
@@ -112,7 +112,7 @@ table.picto td{vertical-align:top;}
     background: none repeat scroll 0 0 #F8F5E9;
     height: 151px;
     margin: 0 auto;
-    max-width: 1400px;
+    max-width: 1300px;
 }
 #banner {height: 151px;position: relative;width: 100%;}
 #banner .inner {
@@ -121,7 +121,7 @@ table.picto td{vertical-align:top;}
     position: relative;
     width: 100%;
 }
-#banner img {height: 151px; position: absolute; width: 1400px;}
+#banner img {height: 151px; position: absolute; width: 1300px;}
 /* MENU */
 div.left-navigation {display:block;padding:5px 15px 20px 15px; border:solid 1px #e5e5e5;
              -webkit-border-radius: 5px;

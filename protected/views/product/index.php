@@ -44,7 +44,7 @@ $(document).ready(function () {
                 echo CHtml::hiddenField('productId', $product->id);
                 echo CHtml::hiddenField('price', $product->mainNode->price);
                 ?>
-                <div class="prod-title"><h1><?php echo $product->content->title; ?></h1></div>
+                <div class="prod-title"><h1><?php echo $product->content->title; ?><span><?php echo $product->code; ?></span></h1></div>
                 <div class="prod-desc"><?php echo $product->content->body; ?></div>
                 <div class="prod-price"><?php echo number_format($product->mainNode->price / $this->currencyValue,2,'.','').Yii::app()->params['currencies'][$this->currency]; ?></div>
                 <?php if (count($product->productNodes) == 1 AND !$product->productNodes[0]->size): ?>
@@ -52,7 +52,7 @@ $(document).ready(function () {
                 <?php else: ?>
                 <ul class="prod-size">
                     <?php foreach ($product->productNodes AS $node): ?>
-                    <li><input id="<?php echo $node->id; ?>" type="radio" name="productNodeId" value="<?php echo $node->id; ?>">&nbsp;<label for="<?php echo $node->id; ?>"><?php echo $node->size; ?></label></li>
+                    <li><input id="<?php echo $node->id; ?>" type="radio" name="productNodeId" value="<?php echo $node->id; ?>">&nbsp;<label for="<?php echo $node->id; ?>"><?php echo Yii::t('vars', $node->size).' ('.$node->precise_size.')'; ?></label></li>
                     <?php endforeach; ?>
                 </ul>
                 <?php endif; ?>

@@ -23,6 +23,7 @@
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Size</th>
+                    <th>Precise size</th>
                     <th>Date created</th>
                     <th>Sort</th>
                     <th>&nbsp;</th>
@@ -43,7 +44,8 @@
                     <td><?php echo ($productNode->sale ? 'Yes' : 'No'); ?></td>
                     <td><?php echo $productNode->price; ?></td>
                     <td><?php echo $productNode->quantity; ?></td>
-                    <td><?php echo $productNode->size; ?></td>
+                    <td><?php echo $this->classifier->getValue('size', $productNode->size, '-'); ?></td>
+                    <td><?php echo $productNode->precise_size; ?></td>
                     <td><?php echo $productNode->created; ?></td>
                     <td><?php echo $productNode->sort; ?></td>
                     <td class="delete">

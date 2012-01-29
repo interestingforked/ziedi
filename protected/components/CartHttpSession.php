@@ -21,6 +21,9 @@ class CartHttpSession {
             'coupon_id' => 0,
             'anonymous_delivery' => false,
             'free_delivery_photo' => false,
+            'phrase' => null,
+            'phrase_id' => 0,
+            'phrase_sign' => null,
         );
         $this->driver->add('cart', $this->cart);
         return $this->cart;
@@ -108,6 +111,21 @@ class CartHttpSession {
     
     public function getFreeDeliveryPhoto() {
         return $this->cart['free_delivery_photo'];
+    }
+    
+    public function getPhrase() {
+        return array(
+            'phrase_id' => $this->cart['phrase_id'],
+            'phrase_sign' => $this->cart['phrase_sign'],
+            'phrase' => $this->cart['phrase'],
+        );
+    }
+    
+    public function setPhrase($id, $phrase, $sign) {
+        $this->cart['phrase_id'] = $id;
+        $this->cart['phrase'] = $phrase;
+        $this->cart['phrase_sign'] = $sign;
+        $this->count_total();
     }
 
     public function getCoupon() {

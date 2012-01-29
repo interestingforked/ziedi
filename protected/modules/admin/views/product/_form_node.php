@@ -38,8 +38,12 @@ echo $form->errorSummary($model);
 </p>
 <p>
     <?php echo $form->labelEx($model, 'size'); ?><br/>
-    <?php echo $form->textField($model,'size', array('class' => 'text')); ?>
-    <span class="note error"><?php echo $form->error($model, 'size'); ?></span>
+    <?php echo $form->dropDownList($model, 'size', CHtml::listData($sizes, 'key', 'value'), array('class' => 'styled')); ?>
+</p>
+<p>
+    <?php echo $form->labelEx($model, 'precise_size'); ?><br/>
+    <?php echo $form->textField($model,'precise_size', array('class' => 'text')); ?>
+    <span class="note error"><?php echo $form->error($model, 'precise_size'); ?></span>
 </p>
 <hr/>
 <p>

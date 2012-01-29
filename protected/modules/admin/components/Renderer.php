@@ -5,6 +5,7 @@ class Renderer {
     const RENDER_TABLE_ROW = 1;
     const RENDER_OPTION_LIST = 2;
     const RENDER_CATEGORY_ROW = 3;
+    const RENDER_PHRASE_CATEGORY_ROW = 4;
 
     private $icons = array();
     private $title = array();
@@ -27,6 +28,9 @@ class Renderer {
                     break;
                 case self::RENDER_CATEGORY_ROW:
                     echo $this->renderItemAsTableRow($item, ($count == 1), ($count == $itemCount), true);
+                    break;
+                case self::RENDER_PHRASE_CATEGORY_ROW:
+                    echo $this->renderItemAsTableRow($item, ($count == 1), ($count == $itemCount));
                     break;
                 case self::RENDER_OPTION_LIST:
                     echo $this->renderItemAsOptionList($item, $value);

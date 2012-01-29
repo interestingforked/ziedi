@@ -23,6 +23,9 @@
             <?php 
             foreach ($orders AS $order):
             $orderDetail = $order->orderDetail;
+            if (!$orderDetail) {
+                continue;
+            }
             $fullname = $orderDetail->b_name.' '.$orderDetail->b_surname;
             ?>
                 <tr>

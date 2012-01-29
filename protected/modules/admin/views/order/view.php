@@ -53,6 +53,7 @@
             </ul>
             </div>
             <div style="clear:both;height:30px;"></div>
+            <div style="width:45%;float:left;">
             <h3>Time of delivery</h3>
             <ul class="list">
                 <li><strong>Shipping date</strong>: 
@@ -70,6 +71,18 @@
                 <li><strong>Clarify everything</strong>: <?php echo ($orderDetail->clarify_everything ? 'Yes' : 'No'); ?></li>
                 <li><strong>Clarify address fr</strong>: <?php echo ($orderDetail->clarify_address_fr ? 'Yes' : 'No'); ?></li>
             </ul>
+            </div>
+            <?php if ($orderDetail->phrase): ?>
+            <div style="width:45%;float:left;">
+            <h3>Phrase</h3>
+            <ul class="list">
+                <li><strong>Phrase ID</strong>: <?php echo $orderDetail->phrase_id; ?></li>
+                <li><strong>Phrase</strong>: <?php echo $orderDetail->phrase; ?></li>
+                <li><strong>Signature</strong>: <?php echo $orderDetail->phrase_sign; ?></li>
+             </ul>
+            </div>
+            <?php endif; ?>
+            <div style="clear:both;height:30px;"></div>
         </div>
         <div class="sidebar_content" id="sb3">
             <table cellpadding="0" cellspacing="0" width="100%" class="sortable">

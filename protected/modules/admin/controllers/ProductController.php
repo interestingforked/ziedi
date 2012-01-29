@@ -144,6 +144,8 @@ class ProductController extends AdminController {
         $model = new ProductNode;
         $product = Product::model()->findByPk($id);
         
+        $sizes = $this->classifier->getGroup('size');
+        
         $nodes = ProductNode::model()->findAllByAttributes(array('product_id' => $id));
 
         if (isset($_POST['ProductNode'])) {
@@ -170,6 +172,7 @@ class ProductController extends AdminController {
         $this->render('add_node', array(
             'errors' => $errors,
             'model' => $model,
+            'sizes' => $sizes
         ));
     }
 
@@ -314,6 +317,8 @@ class ProductController extends AdminController {
 
         $model = ProductNode::model()->findByPk($id);
         $product = $model->product;
+        
+        $sizes = $this->classifier->getGroup('size');
 
         if (isset($_POST['ProductNode'])) {
             if ($_POST['ProductNode']['price'] == 0) {
@@ -334,6 +339,7 @@ class ProductController extends AdminController {
         $this->render('edit_node', array(
             'errors' => $errors,
             'model' => $model,
+            'sizes' => $sizes
         ));
     }
 

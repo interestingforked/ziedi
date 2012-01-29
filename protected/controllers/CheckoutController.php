@@ -39,9 +39,8 @@ class CheckoutController extends Controller {
             } else {
                 $orderDetail->shipping_time = 4;
             }
-
         }
-
+        
         if ($_POST) {
             $request = Yii::app()->getRequest();
             
@@ -71,7 +70,14 @@ class CheckoutController extends Controller {
             $orderDetail->full_address = $request->getParam('full_address');
             $orderDetail->clarify_everything = $request->getParam('clarify_everything', 0);
             $orderDetail->clarify_address_fr = $request->getParam('clarify_address_fr', 0);
-            
+
+            $phrase = $session->get('phrase');
+            if ($phrase) {
+                $orderDetail->phrase_id = $phrase['phrase_id'];
+                $orderDetail->phrase = $phrase['phrase'];
+                $orderDetail->phrase_sign = $phrase['phrase_sign'];
+            }
+
             $additionalSum = 0;
             if ($orderDetail->clarify_everything) {
                 $additionalSum += 3;
@@ -96,6 +102,21 @@ class CheckoutController extends Controller {
             'price' => $cart['total_price'],
             'order' => $order,
         ));
+    }
+    
+    public function actionPhrase() {
+        if (Yii::app()->request->isAjaxRequest) {
+            $request = Yii::app()->getRequest();
+            
+            $session = new CHttpSession();
+            $session->open();
+            $session->add('phrase', array(
+                'phrase_id' => $request->getParam('phrase_id', 0),
+                'phrase' => $request->getParam('phrase', ''),
+                'phrase_sign' => $request->getParam('phrase_sign', ''),
+            ));
+            Yii::app()->end();
+        }
     }
 
     public function actionStep1() {

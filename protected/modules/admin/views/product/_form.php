@@ -33,6 +33,11 @@ echo $form->errorSummary(array($model, $contentModel));
     <span class="note error"><?php echo $form->error($contentModel, 'title'); ?></span>
 </p>
 <p>
+    <?php echo $form->labelEx($model, 'code'); ?><br/>
+    <?php echo $form->textField($model,'code', array('class' => 'text tiny')); ?>
+    <span class="note error"><?php echo $form->error($model, 'code'); ?></span>
+</p>
+<p>
     <?php echo $form->labelEx($model, 'slug'); ?><br/>
     <?php echo $form->textField($model,'slug', array('class' => 'text medium')); ?>
     <span class="note error"><?php echo $form->error($model, 'slug'); ?></span>
