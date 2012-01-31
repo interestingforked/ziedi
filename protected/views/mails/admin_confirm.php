@@ -49,7 +49,7 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Сумма заказа:</strong> <?php echo number_format(($order->total + $order->shipping) / $this->currencyValue,2,'.','').' '.Yii::app()->params['currencies'][$order->currency]; ?>. (включая доставку)</p>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Сумма заказа:</strong> <?php echo number_format(($order->total + $order->shipping + $order->addtional) / $this->currencyValue,2,'.','').' '.Yii::app()->params['currencies'][$order->currency]; ?>. (включая доставку)</p>
                                                         <h3 style="padding-bottom: 6px; margin-top: 10px; padding-left: 2px; padding-right: 2px; font: 16px/16px arial,sans-serif; margin-bottom: 10px; background: #f1f1f1; padding-top: 6px;"><strong><strong>Информация о заказе</strong>:</strong></h3>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Дата заказа:</strong> <?php echo $order->created; ?></p>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Дата доставки:</strong> <?php echo $data->shipping_date_day.'.'.$data->shipping_date_month.'.'.$data->shipping_date_year; ?> (<?php echo $checkoutData->shippingTime[$data->shipping_time]; ?>)</p>

@@ -3,6 +3,8 @@
 return array(
     'shipping1' => 'Free',
     'shipping2' => 'Pony Express',
-    'NORMAL' => 'Средний',
+    'BIG' => 'Большой',
+    'SMALL' => 'Маленький',
+    'AVARAGE' => 'Средний',
 );
 

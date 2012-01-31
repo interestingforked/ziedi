@@ -27,6 +27,8 @@
                     case 3: echo 'Completed'; break;
                 } ?></li>
                 <li><strong>Payment method</strong>: <?php echo $checkoutData->paymentMethod[$order->payment_method] ?></li>
+                <li><strong>Anonymous delivery</strong>: <?php echo ($order->anonymous_delivery ? 'Yes' : 'No'); ?></li>
+                <li><strong>Free delivery photo</strong>: <?php echo ($order->free_delivery_photo ? 'Yes' : 'No'); ?></li>
                 <li><strong>Item quantity</strong>: <?php echo $order->quantity; ?></li>
                 <li><strong>Total sum</strong>: <?php echo $order->total; ?></li>
                 <li><strong>Shipping sum</strong>: <?php echo $order->shipping; ?></li>
@@ -101,7 +103,7 @@
                 <?php 
                 foreach ($orderItems AS $item):
                     $product = $products['item_'.$item->id];
-                    $attachedImage = Attachment::model()->getAttachment('product', $product->mainNode->id);
+                    $attachedImage = Attachment::model()->getAttachment('product', $item->product_id);
                     ?>
                     <tr>
                         <td><?php echo CHtml::image(Image::thumb(Yii::app()->params['images'].$attachedImage->image, 60));; ?></td>

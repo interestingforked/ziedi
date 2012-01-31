@@ -47,7 +47,7 @@ $(document).ready(function () {
                 <div class="prod-title"><h1><?php echo $product->content->title; ?><span><?php echo $product->code; ?></span></h1></div>
                 <div class="prod-desc"><?php echo $product->content->body; ?></div>
                 <div class="prod-price"><?php echo number_format($product->mainNode->price / $this->currencyValue,2,'.','').Yii::app()->params['currencies'][$this->currency]; ?></div>
-                <?php if (count($product->productNodes) == 1 AND !$product->productNodes[0]->size): ?>
+                <?php if (count($product->productNodes) == 1 AND !$product->productNodes[0]->precise_size): ?>
                 <input id="<?php echo $product->productNodes[0]->id; ?>" type="hidden" name="productNodeId" value="<?php echo $product->productNodes[0]->id; ?>">
                 <?php else: ?>
                 <ul class="prod-size">
@@ -78,11 +78,12 @@ $(document).ready(function () {
                             'activateParents' => true,
                             'htmlOptions' => array(
                                 'class' => 'gift-select',
+                                'title' => 'giftList'
                             )
                         ));
                         ?>
                     </div>
-                    <div class="list gift-list"></div>
+                    <div class="list gift-list" id="giftList"></div>
                 </div>
             </td>
         </tr>

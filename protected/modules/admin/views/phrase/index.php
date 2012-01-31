@@ -16,6 +16,7 @@
                 <tr>
                     <th>Title</th>
                     <th>Status</th>
+                    <th>language</th>
                     <th>Date created</th>
                     <th>&nbsp;</th>
                 </tr>
@@ -23,15 +24,18 @@
             <tbody>
             <?php 
             foreach ($products AS $product):
-                $product->content = Content::model()->getModuleContent('phrase', $product->id);
+                $product->content = Content::model()->getModuleContent('phrase', $product->id, 'lv');
+                if (!$product->content) {
+                    $product->content = Content::model()->getModuleContent('phrase', $product->id, 'ru');
+                }
             ?>
                 <tr>
                     <td><?php echo CHtml::link($product->content->title, array('/admin/phrase/edit/'.$product->id)); ?></td>
                     <td><?php echo ($product->active ? 'Active' : 'Disabled'); ?></td>
+                    <td><?php echo Yii::app()->params['languages'][$product->content->language]; ?></td>
                     <td><?php echo $product->created; ?></td>
                     <td class="delete">
                         <?php echo CHtml::link('Edit', array('/admin/phrase/edit/'.$product->id)); ?>
-                        <?php echo CHtml::link('Translate', array('/admin/phrase/translate/'.$product->id)); ?>
                         <?php echo CHtml::link('Delete', array('/admin/phrase/delete/'.$product->id), array('class' => 'delete')); ?>
                     </td>
                 </tr>

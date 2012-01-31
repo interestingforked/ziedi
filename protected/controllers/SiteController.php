@@ -3,7 +3,7 @@
 class SiteController extends Controller {
 
     public function actionIndex() {
-        $this->metaTitle = $this->settings['INDEX_TITLE'];
+        $this->metaTitle = $this->settings['INDEX_TITLE_'.  strtoupper(Yii::app()->language)];
         
         $products = array();
         $category = Category::model()->getCategory($this->settings['INDEX_CATEGORY']);

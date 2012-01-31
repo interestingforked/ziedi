@@ -21,22 +21,22 @@
                                             <tbody>
                                                 <tr>
                                                     <td style="background-color: rgb(255, 255, 255);">
-                                                        <h2 style="margin-top: 20px; font: 15px/15px arial,sans-serif;"><strong>Уважаемый (ая) <?php echo $data->b_name.' '.$data->b_surname; ?>,</strong></h2>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;">Спасибо за Ваш заказ с сайта <a target="_blank" target="_blank" shape="rect" href="http://www.aizietziedi.lv">AizietZiedi.lv.</a> Ваш заказ сейчас обрабатывается. Пожалуйста, внимательно проверьте информацию о Вашем заказе.<br>
-                                                            <br>
-                                                            Если у Вас появяться какие-либо вопросы относительно заказа - свяжитесь с нами по электронной почте <a shape="rect" href="mailto:info@aizietzieid.lv">info@aizietziedi.lv</a> или по телефону +371 202 77 77 <strong>указав код заказа</strong> - <strong><?php echo $order->key; ?></strong>.
+                                                        <h2 style="margin-top: 20px; font: 15px/15px arial,sans-serif;"><strong><?php echo Yii::t('app', 'Уважаемый (ая)'); ?> <?php echo $data->b_name.' '.$data->b_surname; ?>,</strong></h2>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><?php echo Yii::t('app', 'Спасибо за Ваш заказ с сайта'); ?> <a target="_blank" target="_blank" shape="rect" href="http://www.aizietziedi.lv">AizietZiedi.lv.</a> <?php echo Yii::t('app', 'Ваш заказ сейчас обрабатывается. Пожалуйста, внимательно проверьте информацию о Вашем заказе.'); ?><br>
+                                                            <br><?php echo Yii::t('app', 'Если у Вас появяться какие-либо вопросы относительно заказа - свяжитесь с нами по электронной почте'); ?>
+                                                             <a shape="rect" href="mailto:info@aizietzieid.lv">info@aizietziedi.lv</a> <?php echo Yii::t('app', 'или по телефону +371 202 77 77 <strong>указав код заказа</strong>'); ?> - <strong><?php echo $order->key; ?></strong>.
                                                         </p>
-                                                        <h3 style="padding-bottom: 6px; margin-top: 10px; padding-left: 2px; padding-right: 2px; font: 16px/16px arial,sans-serif; margin-bottom: 10px; background: #f1f1f1; padding-top: 6px;"><strong>Данные заказа</strong></h3>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Код заказа:</strong> <strong><?php echo $order->key; ?></strong></p>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Вид платежа:</strong> <strong><?php echo $checkoutData->paymentMethod[$order->payment_method]; ?></strong></p>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Email:</strong> <?php echo $data->b_email; ?></p>
+                                                        <h3 style="padding-bottom: 6px; margin-top: 10px; padding-left: 2px; padding-right: 2px; font: 16px/16px arial,sans-serif; margin-bottom: 10px; background: #f1f1f1; padding-top: 6px;"><strong><?php echo Yii::t('app', 'Данные заказа'); ?></strong></h3>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong><?php echo Yii::t('app', 'Код заказа'); ?>:</strong> <strong><?php echo $order->key; ?></strong></p>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong><?php echo Yii::t('app', 'Вид платежа'); ?>:</strong> <strong><?php echo $checkoutData->paymentMethod[$order->payment_method]; ?></strong></p>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong><?php echo Yii::t('app', 'E-mail'); ?>:</strong> <?php echo $data->b_email; ?></p>
                                                         <br>
                                                         <table style="margin-bottom: 20px;" cellpadding="0" cellspacing="0" width="497">
                                                             <tbody>
                                                                 <tr>
                                                                     <td width="248">
                                                                         <p style="font-family: arial,sans-serif; font-size: 14px;">
-                                                                            <strong>Отправитель:</strong><br>
+                                                                            <strong><?php echo Yii::t('app', 'Отправитель'); ?>:</strong><br>
                                                                             <?php echo $data->b_name.' '.$data->b_surname; ?><br>
                                                                             <?php echo $data->b_phone; ?><br/>
                                                                             <?php echo $data->b_email; ?><br/>
@@ -44,7 +44,7 @@
                                                                     </td>
                                                                     <td width="249" valign="top">
                                                                         <p style="font-family: arial,sans-serif; font-size: 14px;">
-                                                                            <strong>Адресат</strong>:<br>
+                                                                            <strong><?php echo Yii::t('app', 'Адресат'); ?></strong>:<br>
                                                                             <?php echo $data->b_name.' '.$data->b_surname; ?><br>
                                                                             <?php echo $data->b_phone; ?><br/>
                                                                             <?php echo $data->full_address; ?></p>
@@ -52,12 +52,12 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Сумма заказа:</strong> <?php echo number_format(($order->total + $order->shipping) / $this->currencyValue,2,'.','').' '.Yii::app()->params['currencies'][$order->currency]; ?>. (включая доставку)</p>
-                                                        <h3 style="padding-bottom: 6px; margin-top: 10px; padding-left: 2px; padding-right: 2px; font: 16px/16px arial,sans-serif; margin-bottom: 10px; background: #f1f1f1; padding-top: 6px;"><strong><strong>Информация о заказе</strong>:</strong></h3>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Дата заказа:</strong> <?php echo $order->created; ?></p>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Дата доставки:</strong> <?php echo $data->shipping_date_day.'.'.$data->shipping_date_month.'.'.$data->shipping_date_year; ?> (<?php echo $checkoutData->shippingTime[$data->shipping_time]; ?>)</p>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong><?php echo Yii::t('app', 'Сумма заказа'); ?>:</strong> <?php echo number_format(($order->total + $order->shipping + $order->additional) / $this->currencyValue,2,'.','').' '.Yii::app()->params['currencies'][$order->currency]; ?>. (<?php echo Yii::t('app', 'включая доставку'); ?>)</p>
+                                                        <h3 style="padding-bottom: 6px; margin-top: 10px; padding-left: 2px; padding-right: 2px; font: 16px/16px arial,sans-serif; margin-bottom: 10px; background: #f1f1f1; padding-top: 6px;"><strong><strong><?php echo Yii::t('app', 'Информация о заказе'); ?></strong>:</strong></h3>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong><?php echo Yii::t('app', 'Дата заказа'); ?>:</strong> <?php echo $order->created; ?></p>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong><?php echo Yii::t('app', 'Дата доставки'); ?>:</strong> <?php echo $data->shipping_date_day.'.'.$data->shipping_date_month.'.'.$data->shipping_date_year; ?> (<?php echo $checkoutData->shippingTime[$data->shipping_time]; ?>)</p>
                                                         <?php if ($data->shipping_time == 5): ?>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Точный диапазон времени:</strong> <?php echo $data->exact_interval_from_h.':'.$data->exact_interval_from_m; ?> - <?php echo $data->exact_interval_till_h.':'.$data->exact_interval_till_h; ?></p>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong><?php echo Yii::t('app', 'Точный диапазон времени'); ?>:</strong> <?php echo $data->exact_interval_from_h.':'.$data->exact_interval_from_m; ?> - <?php echo $data->exact_interval_till_h.':'.$data->exact_interval_till_h; ?></p>
                                                         <?php endif; ?>
                                                         <span style="font-family: arial,sans-serif; font-size: 14px;">
                                                             <table style="margin-top: 20px; margin-bottom: 20px;" cellpadding="0" cellspacing="0" width="497">
@@ -79,7 +79,7 @@
                                                                             ?>
                                                                         </td>
                                                                         <td><p><?php echo $i; ?> <strong><?php echo $productNode->content->title; ?></strong> <?php echo number_format($productNode->mainNode->price / $this->currencyValue,2,'.','').' '.Yii::app()->params['currencies'][$order->currency]; ?></p></td>
-                                                                        <td><p>Размер: <?php echo $productNode->mainNode->size; ?></p></td>
+                                                                        <td><p><?php echo Yii::t('app', 'Size'); ?>: <?php echo $productNode->mainNode->size; ?></p></td>
                                                                     </tr>
                                                                     <?php endforeach; ?>
                                                                 </tbody>
@@ -90,7 +90,7 @@
                                                 <tr><td></td></tr>
                                                 <tr>
                                                     <td>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;">Мы надеемся что Вы будете полностью удовлетворены нашими услугами.<br>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><?php echo Yii::t('app', 'Мы надеемся что Вы будете полностью удовлетворены нашими услугами.'); ?><br>
                                                         </p>
                                                     </td>
                                                 </tr>

@@ -51,6 +51,14 @@ class CheckoutController extends Controller {
                 $order->save();
             }
             
+            $options = array(
+                'anonymous_delivery' => $this->cart->getAnonymousDelivery(),
+                'free_delivery_photo' => $this->cart->getFreeDeliveryPhoto(),
+            );
+            
+            $order->anonymous_delivery = ($options['anonymous_delivery'] ? 1 : 0);
+            $order->free_delivery_photo = ($options['free_delivery_photo'] ? 1 : 0);
+            
             $order->quantity = $cart['total_count'];
             $order->total = $cart['total_price'];
             $order->shipping = $request->getParam('shippingPrice');

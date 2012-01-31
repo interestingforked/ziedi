@@ -54,7 +54,7 @@ $(document).ready(function () {
                             <span id="thePrice"><?php echo number_format($price / $this->currencyValue,2,'.',''); ?></span>
                             <?php echo Yii::app()->params['currencies'][$this->currency]; ?>
                         </strong>
-                        <input type="hidden" name="price" id="price" value="<?php echo number_format($price / $this->currencyValue,2,'.',''); ?>">
+                        <input type="hidden" name="price" id="price" value="<?php echo number_format(0 / $this->currencyValue,2,'.',''); ?>">
                         <input type="hidden" name="shippingPrice" id="shippingPrice" value="<?php echo $order->shipping; ?>">
                         <input type="hidden" name="additionalPrice" id="additionalPrice" value="<?php echo $order->additional; ?>">
                     </td>

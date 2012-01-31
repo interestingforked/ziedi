@@ -3,7 +3,7 @@
 class PoetryController extends Controller {
 
     public function actionCategory($id) {
-        $category = PhraseCategory::model()->getCategory($id);
+        $category = Phrasecategory::model()->getCategory($id);
         if (Yii::app()->request->isAjaxRequest) {
             if (!$category OR !$category->phrases) {
                 echo '';
@@ -12,6 +12,8 @@ class PoetryController extends Controller {
             $phrases = '';
             $i = 0;
             foreach ($category->phrases AS $phrase) {
+                $phrase->content = Content::model()->getModuleContent('phrase', $phrase->id, Yii::app()->language);
+                if (!$phrase->content) continue;
                 $i++;
                 $phrases .= '<li>'.CHtml::link($i, array('/poetry/get/'.$phrase->id)).'</li>';
             }

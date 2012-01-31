@@ -27,6 +27,7 @@ class Product extends CActiveRecord {
         return array(
             array('active, sort, deleted', 'numerical', 'integerOnly' => true),
             array('slug', 'length', 'max' => 250),
+            array('code', 'length', 'max' => 20),
             array('id, active, sort, slug, code, deleted, created', 'safe', 'on' => 'search'),
         );
     }
